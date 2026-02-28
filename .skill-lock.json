@@ -1,0 +1,53 @@
+{
+  "version": 3,
+  "skills": {
+    "skill-builder": {
+      "source": "jwynia/agent-skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/jwynia/agent-skills.git",
+      "skillPath": "skills/general/meta/skill-builder/SKILL.md",
+      "skillFolderHash": "c6b9dd3573b28b13d752b40e6400d365711ffa5c",
+      "installedAt": "2026-02-07T23:59:31.138Z",
+      "updatedAt": "2026-02-07T23:59:31.138Z"
+    },
+    "find-skills": {
+      "source": "vercel-labs/skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/vercel-labs/skills.git",
+      "skillPath": "skills/find-skills/SKILL.md",
+      "skillFolderHash": "c2f31172b6f256272305a5e6e7228b258446899f",
+      "installedAt": "2026-02-07T23:59:52.025Z",
+      "updatedAt": "2026-02-07T23:59:52.025Z"
+    },
+    "vercel-cli": {
+      "source": "vercel/vercel",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/vercel/vercel.git",
+      "skillPath": "skills/vercel-cli/SKILL.md",
+      "skillFolderHash": "395caf204efda631276b28ba43985a194e83e4cf",
+      "installedAt": "2026-02-20T01:39:30.780Z",
+      "updatedAt": "2026-02-20T01:39:30.780Z"
+    },
+    "frontend-design": {
+      "source": "vercel-labs/agent-eval",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/vercel-labs/agent-eval.git",
+      "skillPath": "packages/playground/.agents/skills/frontend-design/SKILL.md",
+      "skillFolderHash": "928950704df8a8b885c03de5da626331e6f29cf8",
+      "installedAt": "2026-02-21T01:37:17.654Z",
+      "updatedAt": "2026-02-21T01:37:17.654Z"
+    }
+  },
+  "dismissed": {
+    "findSkillsPrompt": true
+  },
+  "lastSelectedAgents": [
+    "amp",
+    "codex",
+    "cursor",
+    "gemini-cli",
+    "github-copilot",
+    "kimi-cli",
+    "opencode"
+  ]
+}
