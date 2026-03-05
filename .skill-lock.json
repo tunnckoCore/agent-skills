@@ -36,6 +36,15 @@
       "skillFolderHash": "928950704df8a8b885c03de5da626331e6f29cf8",
       "installedAt": "2026-02-21T01:37:17.654Z",
       "updatedAt": "2026-02-21T01:37:17.654Z"
+    },
+    "ultracite": {
+      "source": "haydenbleasel/ultracite",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/haydenbleasel/ultracite.git",
+      "skillPath": "skills/ultracite/SKILL.md",
+      "skillFolderHash": "8c21cbb2d62d8942e06a62c115ff6982f9f4992a",
+      "installedAt": "2026-03-05T22:31:30.834Z",
+      "updatedAt": "2026-03-05T22:31:30.834Z"
     }
   },
   "dismissed": {
@@ -43,6 +52,7 @@
   },
   "lastSelectedAgents": [
     "amp",
+    "cline",
     "codex",
     "cursor",
     "gemini-cli",
