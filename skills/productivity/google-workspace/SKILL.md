@@ -1,335 +1,245 @@
 ---
 name: google-workspace
-description: "Gmail, Calendar, Drive, Docs, Sheets via gws CLI or Python."
-version: 1.1.0
-author: Nous Research
-license: MIT
-platforms: [linux, macos, windows]
-required_credential_files:
-  - path: google_token.json
-    description: Google OAuth2 token (created by setup script)
-  - path: google_client_secret.json
-    description: Google OAuth2 client credentials (downloaded from Google Cloud Console)
-metadata:
-  hermes:
-    tags: [Google, Gmail, Calendar, Drive, Sheets, Docs, Contacts, Email, OAuth]
-    homepage: https://github.com/NousResearch/hermes-agent
-    related_skills: [himalaya]
+description: >
+  Manage Google Workspace via the gws CLI — Drive, Gmail, Sheets, Docs, Slides,
+  People, Chat, Meet, Forms, and cross-service workflows. Use when asked to
+  send email, read/write spreadsheets, upload files to Drive, manage contacts,
+  create presentations, send Chat messages, create docs, or any Google Workspace
+  operation. Also triggers on "gws", "Google Drive", "Google Sheets", "Gmail",
+  "Google Docs", "Google Slides", "Google Chat", "Google Meet", "Google Forms",
+  "check my inbox", "upload to Drive", "read spreadsheet", "send an email",
+  "create a doc", "send a chat message", "create a presentation".
 ---
 
-# Google Workspace
+# Google Workspace CLI (`gws`)
 
-Gmail, Calendar, Drive, Contacts, Sheets, and Docs — through Hermes-managed OAuth and a thin CLI wrapper. When `gws` is installed, the skill uses it as the execution backend for broader Google Workspace coverage; otherwise it falls back to the bundled Python client implementation.
+Interact with Google Workspace services via the `gws` CLI. This skill covers
+all supported services, helper shortcuts, cross-service workflows, role-based
+personas, and multi-step recipes.
 
-## References
+## Installation & Auth
 
-- `references/gmail-search-syntax.md` — Gmail search operators (is:unread, from:, newer_than:, etc.)
-
-## Scripts
-
-- `scripts/setup.py` — OAuth2 setup (run once to authorize)
-- `scripts/google_api.py` — compatibility wrapper CLI. It prefers `gws` for operations when available, while preserving Hermes' existing JSON output contract.
-
-## First-Time Setup
-
-The setup is fully non-interactive — you drive it step by step so it works
-on CLI, Telegram, Discord, or any platform.
-
-Define a shorthand first:
+The `gws` binary must be on `$PATH`. Version: 0.16.0+.
 
 ```bash
-GSETUP="python ${HERMES_HOME:-$HOME/.hermes}/skills/productivity/google-workspace/scripts/setup.py"
+# Browser-based OAuth (interactive)
+gws auth login
+
+# Service Account
+export GOOGLE_APPLICATION_CREDENTIALS=/path/to/key.json
+
+# Check status
+gws auth status
 ```
 
-### Step 0: Check if already set up
+### Auth Flags
+
+| Flag | Description |
+|------|-------------|
+| `--readonly` | Request read-only scopes |
+| `--full` | Request all scopes incl. pubsub + cloud-platform |
+| `--scopes` | Comma-separated custom scopes |
+| `-s, --services` | Limit scope picker to specific services (e.g. `-s drive,gmail`) |
+
+## CLI Syntax
 
 ```bash
-$GSETUP --check
+gws <service> <resource> [sub-resource] <method> [flags]
 ```
 
-If it prints `AUTHENTICATED`, skip to Usage — setup is already done.
+### Global Flags
 
-### Step 1: Triage — ask the user what they need
+| Flag | Description |
+|------|-------------|
+| `--format <FMT>` | Output format: `json` (default), `table`, `yaml`, `csv` |
+| `--dry-run` | Validate locally without calling the API |
+| `--sanitize <TEMPLATE>` | Screen responses through Model Armor |
+| `--params '{"key": "val"}'` | URL/query parameters |
+| `--json '{"key": "val"}'` | Request body |
+| `-o, --output <PATH>` | Save binary responses to file |
+| `--upload <PATH>` | Upload file content (multipart) |
+| `--page-all` | Auto-paginate (NDJSON output) |
+| `--page-limit <N>` | Max pages with --page-all (default: 10) |
+| `--page-delay <MS>` | Delay between pages in ms (default: 100) |
 
-Before starting OAuth setup, ask the user TWO questions:
-
-**Question 1: "What Google services do you need? Just email, or also
-Calendar/Drive/Sheets/Docs?"**
-
-- **Email only** → They don't need this skill at all. Use the `himalaya` skill
-  instead — it works with a Gmail App Password (Settings → Security → App
-  Passwords) and takes 2 minutes to set up. No Google Cloud project needed.
-  Load the himalaya skill and follow its setup instructions.
-
-- **Email + Calendar** → Continue with this skill, but use
-  `--services email,calendar` during auth so the consent screen only asks for
-  the scopes they actually need.
-
-- **Calendar/Drive/Sheets/Docs only** → Continue with this skill and use a
-  narrower `--services` set like `calendar,drive,sheets,docs`.
-
-- **Full Workspace access** → Continue with this skill and use the default
-  `all` service set.
-
-**Question 2: "Does your Google account use Advanced Protection (hardware
-security keys required to sign in)? If you're not sure, you probably don't
-— it's something you would have explicitly enrolled in."**
-
-- **No / Not sure** → Normal setup. Continue below.
-- **Yes** → Their Workspace admin must add the OAuth client ID to the org's
-  allowed apps list before Step 4 will work. Let them know upfront.
-
-### Step 2: Create OAuth credentials (one-time, ~5 minutes)
-
-Tell the user:
-
-> You need a Google Cloud OAuth client. This is a one-time setup:
->
-> 1. Create or select a project:
->    https://console.cloud.google.com/projectselector2/home/dashboard
-> 2. Enable the required APIs from the API Library:
->    https://console.cloud.google.com/apis/library
->    Enable: Gmail API, Google Calendar API, Google Drive API,
->    Google Sheets API, Google Docs API, People API
-> 3. Create the OAuth client here:
->    https://console.cloud.google.com/apis/credentials
->    Credentials → Create Credentials → OAuth 2.0 Client ID
-> 4. Application type: "Desktop app" → Create
-> 5. If the app is still in Testing, add the user's Google account as a test user here:
->    https://console.cloud.google.com/auth/audience
->    Audience → Test users → Add users
-> 6. Download the JSON file and tell me the file path
->
-> Important Hermes CLI note: if the file path starts with `/`, do NOT send only the bare path as its own message in the CLI, because it can be mistaken for a slash command. Send it in a sentence instead, like:
-> `The JSON file path is: /home/user/Downloads/client_secret_....json`
-
-Once they provide the path:
+### Discovering Commands
 
 ```bash
-$GSETUP --client-secret /path/to/client_secret.json
+gws <service> --help                    # Browse resources and methods
+gws schema <service.resource.method>    # Inspect params, types, defaults
 ```
 
-If they paste the raw client ID / client secret values instead of a file path,
-write a valid Desktop OAuth JSON file for them yourself, save it somewhere
-explicit (for example `~/Downloads/hermes-google-client-secret.json`), then run
-`--client-secret` against that file.
+## Shell Tips
 
-### Step 3: Get authorization URL
+- **zsh `!` expansion:** Use double quotes for sheet ranges: `--range "Sheet1!A1:D10"`
+- **JSON with double quotes:** Wrap `--params`/`--json` in single quotes: `--params '{"pageSize": 5}'`
 
-Use the service set chosen in Step 1. Examples:
+## Security Rules
 
-```bash
-$GSETUP --auth-url --services email,calendar --format json
-$GSETUP --auth-url --services calendar,drive,sheets,docs --format json
-$GSETUP --auth-url --services all --format json
-```
+- **Never** output secrets (API keys, tokens) directly
+- **Always** confirm with user before executing write/delete commands
+- Prefer `--dry-run` for destructive operations
+- Use `--sanitize` for PII/content safety screening
 
-This returns JSON with an `auth_url` field and also saves the exact URL to
-`~/.hermes/google_oauth_last_url.txt`.
+## Services
 
-Agent rules for this step:
-- Extract the `auth_url` field and send that exact URL to the user as a single line.
-- Tell the user that the browser will likely fail on `http://localhost:1` after approval, and that this is expected.
-- Tell them to copy the ENTIRE redirected URL from the browser address bar.
-- If the user gets `Error 403: access_denied`, send them directly to `https://console.cloud.google.com/auth/audience` to add themselves as a test user.
+Core Google Workspace API skills. Read the reference file for full resource/method details.
 
-### Step 4: Exchange the code
+| Service | Description | Reference |
+|---------|-------------|-----------|
+| Drive | Manage files, folders, shared drives | [references/gws-drive.md](references/gws-drive.md) |
+| Sheets | Read and write spreadsheets | [references/gws-sheets.md](references/gws-sheets.md) |
+| Gmail | Send, read, and manage email | [references/gws-gmail.md](references/gws-gmail.md) |
+| Docs | Read and write Google Docs | [references/gws-docs.md](references/gws-docs.md) |
+| Slides | Read and write presentations | [references/gws-slides.md](references/gws-slides.md) |
+| People | Manage contacts and profiles | [references/gws-people.md](references/gws-people.md) |
+| Chat | Manage Chat spaces and messages | [references/gws-chat.md](references/gws-chat.md) |
+| Meet | Manage Google Meet conferences | [references/gws-meet.md](references/gws-meet.md) |
+| Forms | Read and write Google Forms | [references/gws-forms.md](references/gws-forms.md) |
+| Admin Reports | Audit logs and usage reports | [references/gws-admin-reports.md](references/gws-admin-reports.md) |
+| Events | Subscribe to Workspace events | [references/gws-events.md](references/gws-events.md) |
+| Keep | Manage Google Keep notes | [references/gws-keep.md](references/gws-keep.md) |
+| Classroom | Manage courses, students, and invitations | [references/gws-classroom.md](references/gws-classroom.md) |
+| Model Armor | Filter content for safety | [references/gws-modelarmor.md](references/gws-modelarmor.md) |
+| Workflow | Cross-service productivity workflows | [references/gws-workflow.md](references/gws-workflow.md) |
 
-The user will paste back either a URL like `http://localhost:1/?code=4/0A...&scope=...`
-or just the code string. Either works. The `--auth-url` step stores a temporary
-pending OAuth session locally so `--auth-code` can complete the PKCE exchange
-later, even on headless systems:
+## Helper Shortcuts
 
-```bash
-$GSETUP --auth-code "THE_URL_OR_CODE_THE_USER_PASTED" --format json
-```
-
-If `--auth-code` fails because the code expired, was already used, or came from
-an older browser tab, it now returns a fresh `fresh_auth_url`. In that case,
-immediately send the new URL to the user and have them retry with the newest
-browser redirect only.
-
-### Step 5: Verify
-
-```bash
-$GSETUP --check
-```
-
-Should print `AUTHENTICATED`. Setup is complete — token refreshes automatically from now on.
-
-### Notes
-
-- Token is stored at `~/.hermes/google_token.json` and auto-refreshes.
-- Pending OAuth session state/verifier are stored temporarily at `~/.hermes/google_oauth_pending.json` until exchange completes.
-- If `gws` is installed, `google_api.py` points it at the same `~/.hermes/google_token.json` credentials file. Users do not need to run a separate `gws auth login` flow.
-- To revoke: `$GSETUP --revoke`
-
-## Usage
-
-All commands go through the API script. Set `GAPI` as a shorthand:
-
-```bash
-GAPI="python ${HERMES_HOME:-$HOME/.hermes}/skills/productivity/google-workspace/scripts/google_api.py"
-```
-
-### Gmail
-
-```bash
-# Search (returns JSON array with id, from, subject, date, snippet)
-$GAPI gmail search "is:unread" --max 10
-$GAPI gmail search "from:boss@company.com newer_than:1d"
-$GAPI gmail search "has:attachment filename:pdf newer_than:7d"
-
-# Read full message (returns JSON with body text)
-$GAPI gmail get MESSAGE_ID
-
-# Send
-$GAPI gmail send --to user@example.com --subject "Hello" --body "Message text"
-$GAPI gmail send --to user@example.com --subject "Report" --body "<h1>Q4</h1><p>Details...</p>" --html
-$GAPI gmail send --to user@example.com --subject "Hello" --from '"Research Agent" <user@example.com>' --body "Message text"
-
-# Reply (automatically threads and sets In-Reply-To)
-$GAPI gmail reply MESSAGE_ID --body "Thanks, that works for me."
-$GAPI gmail reply MESSAGE_ID --from '"Support Bot" <user@example.com>' --body "Thanks"
-
-# Labels
-$GAPI gmail labels
-$GAPI gmail modify MESSAGE_ID --add-labels LABEL_ID
-$GAPI gmail modify MESSAGE_ID --remove-labels UNREAD
-```
-
-### Calendar
-
-```bash
-# List events (defaults to next 7 days)
-$GAPI calendar list
-$GAPI calendar list --start 2026-03-01T00:00:00Z --end 2026-03-07T23:59:59Z
-
-# Create event (ISO 8601 with timezone required)
-$GAPI calendar create --summary "Team Standup" --start 2026-03-01T10:00:00-06:00 --end 2026-03-01T10:30:00-06:00
-$GAPI calendar create --summary "Lunch" --start 2026-03-01T12:00:00Z --end 2026-03-01T13:00:00Z --location "Cafe"
-$GAPI calendar create --summary "Review" --start 2026-03-01T14:00:00Z --end 2026-03-01T15:00:00Z --attendees "alice@co.com,bob@co.com"
-
-# Delete event
-$GAPI calendar delete EVENT_ID
-```
+Quick commands for common operations. Read the reference file for flags and examples.
 
 ### Drive
-
-```bash
-# Search existing files
-$GAPI drive search "quarterly report" --max 10
-$GAPI drive search "mimeType='application/pdf'" --raw-query --max 5
-
-# Get metadata for a single file
-$GAPI drive get FILE_ID
-
-# Upload a local file (auto-detects MIME type)
-$GAPI drive upload /path/to/report.pdf
-$GAPI drive upload /path/to/image.png --name "Logo.png" --parent FOLDER_ID
-
-# Download (binary files download as-is; Google-native files export to a
-# sensible default — Docs→pdf, Sheets→csv, Slides→pdf, Drawings→png)
-$GAPI drive download FILE_ID
-$GAPI drive download DOC_ID --output ~/doc.pdf
-$GAPI drive download DOC_ID --export-mime text/plain --output ~/doc.txt
-
-# Create a folder
-$GAPI drive create-folder "Reports"
-$GAPI drive create-folder "Q4" --parent FOLDER_ID
-
-# Share
-$GAPI drive share FILE_ID --email alice@example.com --role reader
-$GAPI drive share FILE_ID --email alice@example.com --role writer --notify
-$GAPI drive share FILE_ID --type anyone --role reader        # anyone with link
-$GAPI drive share FILE_ID --type domain --domain example.com --role reader
-
-# Delete — defaults to trash (reversible). Use --permanent to skip the trash.
-$GAPI drive delete FILE_ID
-$GAPI drive delete FILE_ID --permanent
-```
-
-### Contacts
-
-```bash
-$GAPI contacts list --max 20
-```
+| Command | Reference |
+|---------|-----------|
+| `gws drive +upload <file>` | [references/gws-drive-upload.md](references/gws-drive-upload.md) |
 
 ### Sheets
+| Command | Reference |
+|---------|-----------|
+| `gws sheets +read --spreadsheet ID --range RANGE` | [references/gws-sheets-read.md](references/gws-sheets-read.md) |
+| `gws sheets +append --spreadsheet ID --values '...'` | [references/gws-sheets-append.md](references/gws-sheets-append.md) |
 
-```bash
-# Create a new spreadsheet
-$GAPI sheets create --title "Q4 Budget"
-$GAPI sheets create --title "Inventory" --sheet-name "Stock"
-
-# Read
-$GAPI sheets get SHEET_ID "Sheet1!A1:D10"
-
-# Write
-$GAPI sheets update SHEET_ID "Sheet1!A1:B2" --values '[["Name","Score"],["Alice","95"]]'
-
-# Append rows
-$GAPI sheets append SHEET_ID "Sheet1!A:C" --values '[["new","row","data"]]'
-```
+### Gmail
+| Command | Reference |
+|---------|-----------|
+| `gws gmail +send --to EMAIL --subject S --body B` | [references/gws-gmail-send.md](references/gws-gmail-send.md) |
+| `gws gmail +triage` | [references/gws-gmail-triage.md](references/gws-gmail-triage.md) |
+| `gws gmail +reply --message-id ID --body TEXT` | [references/gws-gmail-reply.md](references/gws-gmail-reply.md) |
+| `gws gmail +reply-all --message-id ID --body TEXT` | [references/gws-gmail-reply-all.md](references/gws-gmail-reply-all.md) |
+| `gws gmail +forward --message-id ID --to EMAIL` | [references/gws-gmail-forward.md](references/gws-gmail-forward.md) |
+| `gws gmail +watch` | [references/gws-gmail-watch.md](references/gws-gmail-watch.md) |
 
 ### Docs
+| Command | Reference |
+|---------|-----------|
+| `gws docs +write --document ID --text TEXT` | [references/gws-docs-write.md](references/gws-docs-write.md) |
 
-```bash
-# Read
-$GAPI docs get DOC_ID
+### Chat
+| Command | Reference |
+|---------|-----------|
+| `gws chat +send --space NAME --text TEXT` | [references/gws-chat-send.md](references/gws-chat-send.md) |
 
-# Create a new Doc (optionally seeded with body text)
-$GAPI docs create --title "Meeting Notes"
-$GAPI docs create --title "Draft" --body "First paragraph..."
+### Events
+| Command | Reference |
+|---------|-----------|
+| `gws events +subscribe` | [references/gws-events-subscribe.md](references/gws-events-subscribe.md) |
+| `gws events +renew` | [references/gws-events-renew.md](references/gws-events-renew.md) |
 
-# Append text to the end of an existing Doc
-$GAPI docs append DOC_ID --text "Additional content to append"
-```
+### Model Armor
+| Command | Reference |
+|---------|-----------|
+| `gws modelarmor +sanitize-prompt --template NAME` | [references/gws-modelarmor-sanitize-prompt.md](references/gws-modelarmor-sanitize-prompt.md) |
+| `gws modelarmor +sanitize-response --template NAME` | [references/gws-modelarmor-sanitize-response.md](references/gws-modelarmor-sanitize-response.md) |
+| `gws modelarmor +create-template --project P --location L --template-id ID` | [references/gws-modelarmor-create-template.md](references/gws-modelarmor-create-template.md) |
 
-## Output Format
+### Workflow
+| Command | Reference |
+|---------|-----------|
+| `gws workflow +standup-report` | [references/gws-workflow-standup-report.md](references/gws-workflow-standup-report.md) |
+| `gws workflow +meeting-prep` | [references/gws-workflow-meeting-prep.md](references/gws-workflow-meeting-prep.md) |
+| `gws workflow +email-to-task --message-id ID` | [references/gws-workflow-email-to-task.md](references/gws-workflow-email-to-task.md) |
+| `gws workflow +weekly-digest` | [references/gws-workflow-weekly-digest.md](references/gws-workflow-weekly-digest.md) |
+| `gws workflow +file-announce --file-id ID --space SPACE` | [references/gws-workflow-file-announce.md](references/gws-workflow-file-announce.md) |
 
-All commands return JSON. Parse with `jq` or read directly. Key fields:
+## Personas
 
-- **Gmail search**: `[{id, threadId, from, to, subject, date, snippet, labels}]`
-- **Gmail get**: `{id, threadId, from, to, subject, date, labels, body}`
-- **Gmail send/reply**: `{status: "sent", id, threadId}`
-- **Calendar list**: `[{id, summary, start, end, location, description, htmlLink}]`
-- **Calendar create**: `{status: "created", id, summary, htmlLink}`
-- **Drive search**: `[{id, name, mimeType, modifiedTime, webViewLink}]`
-- **Drive get**: `{id, name, mimeType, modifiedTime, size, webViewLink, parents, owners}`
-- **Drive upload**: `{status: "uploaded", id, name, mimeType, webViewLink}`
-- **Drive download**: `{status: "downloaded", id, name, path, mimeType}`
-- **Drive create-folder**: `{status: "created", id, name, webViewLink}`
-- **Drive share**: `{status: "shared", permissionId, fileId, role, type}`
-- **Drive delete**: `{status: "trashed" | "deleted", fileId, permanent}`
-- **Contacts list**: `[{name, emails: [...], phones: [...]}]`
-- **Sheets get**: `[[cell, cell, ...], ...]`
-- **Sheets create**: `{status: "created", spreadsheetId, title, spreadsheetUrl}`
-- **Docs create**: `{status: "created", documentId, title, url}`
-- **Docs append**: `{status: "appended", documentId, inserted_at, characters}`
+Role-based skill bundles for common workflows. Read the reference for instructions.
 
-## Rules
+| Persona | Description | Reference |
+|---------|-------------|-----------|
+| Executive Assistant | Schedule, inbox, and communications | [references/persona-exec-assistant.md](references/persona-exec-assistant.md) |
+| Project Manager | Tasks, meetings, and doc sharing | [references/persona-project-manager.md](references/persona-project-manager.md) |
+| Team Lead | Standups, coordination, and comms | [references/persona-team-lead.md](references/persona-team-lead.md) |
+| Sales Operations | Deal tracking, calls, client comms | [references/persona-sales-ops.md](references/persona-sales-ops.md) |
+| Content Creator | Create, organize, distribute content | [references/persona-content-creator.md](references/persona-content-creator.md) |
+| Event Coordinator | Scheduling, invitations, logistics | [references/persona-event-coordinator.md](references/persona-event-coordinator.md) |
+| Customer Support | Tickets, responses, escalation | [references/persona-customer-support.md](references/persona-customer-support.md) |
+| HR Coordinator | Onboarding, announcements, comms | [references/persona-hr-coordinator.md](references/persona-hr-coordinator.md) |
+| IT Administrator | Security monitoring, configuration | [references/persona-it-admin.md](references/persona-it-admin.md) |
+| Researcher | References, notes, collaboration | [references/persona-researcher.md](references/persona-researcher.md) |
 
-1. **Never send email, create/delete calendar events, delete Drive files, share files, or modify Docs/Sheets without confirming with the user first.** Show what will be done (recipients, file IDs, content, share role) and ask for approval. For `drive delete`, prefer the default trash (reversible) over `--permanent`.
-2. **Check auth before first use** — run `setup.py --check`. If it fails, guide the user through setup.
-3. **Use the Gmail search syntax reference** for complex queries — load it with `skill_view("google-workspace", file_path="references/gmail-search-syntax.md")`.
-4. **Calendar times must include timezone** — always use ISO 8601 with offset (e.g., `2026-03-01T10:00:00-06:00`) or UTC (`Z`).
-5. **Respect rate limits** — avoid rapid-fire sequential API calls. Batch reads when possible.
+## Recipes
 
-## Troubleshooting
+Multi-step task sequences with real commands. Read the reference for step-by-step instructions.
 
-| Problem | Fix |
-|---------|-----|
-| `NOT_AUTHENTICATED` | Run setup Steps 2-5 above |
-| `REFRESH_FAILED` | Token revoked or expired — redo Steps 3-5 |
-| `HttpError 403: Insufficient Permission` | Missing API scope — `$GSETUP --revoke` then redo Steps 3-5 |
-| `AUTHENTICATED (partial)` or "Token missing scopes" | New write capabilities (Drive write/delete, Docs create/edit) require re-authorization. `$GSETUP --revoke` then redo Steps 3-5 to grant the upgraded scopes. |
-| `HttpError 403: Access Not Configured` | API not enabled — user needs to enable it in Google Cloud Console |
-| `ModuleNotFoundError` | Run `$GSETUP --install-deps` |
-| Advanced Protection blocks auth | Workspace admin must allowlist the OAuth client ID |
+### Gmail Recipes
+| Recipe | Reference |
+|--------|-----------|
+| Label and archive emails | [references/recipe-label-and-archive-emails.md](references/recipe-label-and-archive-emails.md) |
+| Create Gmail filter | [references/recipe-create-gmail-filter.md](references/recipe-create-gmail-filter.md) |
+| Forward labeled emails | [references/recipe-forward-labeled-emails.md](references/recipe-forward-labeled-emails.md) |
+| Set vacation responder | [references/recipe-create-vacation-responder.md](references/recipe-create-vacation-responder.md) |
+| Save email attachments to Drive | [references/recipe-save-email-attachments.md](references/recipe-save-email-attachments.md) |
+| Save email to Google Doc | [references/recipe-save-email-to-doc.md](references/recipe-save-email-to-doc.md) |
+| Draft email from Doc | [references/recipe-draft-email-from-doc.md](references/recipe-draft-email-from-doc.md) |
 
-## Revoking Access
+### Drive Recipes
+| Recipe | Reference |
+|--------|-----------|
+| Organize Drive folder | [references/recipe-organize-drive-folder.md](references/recipe-organize-drive-folder.md) |
+| Share folder with team | [references/recipe-share-folder-with-team.md](references/recipe-share-folder-with-team.md) |
+| Email a Drive link | [references/recipe-email-drive-link.md](references/recipe-email-drive-link.md) |
+| Bulk download folder | [references/recipe-bulk-download-folder.md](references/recipe-bulk-download-folder.md) |
+| Find large files | [references/recipe-find-large-files.md](references/recipe-find-large-files.md) |
+| Create shared drive | [references/recipe-create-shared-drive.md](references/recipe-create-shared-drive.md) |
+| Watch Drive changes | [references/recipe-watch-drive-changes.md](references/recipe-watch-drive-changes.md) |
 
-```bash
-$GSETUP --revoke
-```
+### Sheets Recipes
+| Recipe | Reference |
+|--------|-----------|
+| Create expense tracker | [references/recipe-create-expense-tracker.md](references/recipe-create-expense-tracker.md) |
+| Copy sheet for new month | [references/recipe-copy-sheet-for-new-month.md](references/recipe-copy-sheet-for-new-month.md) |
+| Log deal update | [references/recipe-log-deal-update.md](references/recipe-log-deal-update.md) |
+| Compare sheet tabs | [references/recipe-compare-sheet-tabs.md](references/recipe-compare-sheet-tabs.md) |
+| Backup sheet as CSV | [references/recipe-backup-sheet-as-csv.md](references/recipe-backup-sheet-as-csv.md) |
+| Sync contacts to sheet | [references/recipe-sync-contacts-to-sheet.md](references/recipe-sync-contacts-to-sheet.md) |
+| Generate report from sheet | [references/recipe-generate-report-from-sheet.md](references/recipe-generate-report-from-sheet.md) |
+
+### Cross-Service Recipes
+| Recipe | Reference |
+|--------|-----------|
+| Create doc from template | [references/recipe-create-doc-from-template.md](references/recipe-create-doc-from-template.md) |
+| Share doc and notify | [references/recipe-share-doc-and-notify.md](references/recipe-share-doc-and-notify.md) |
+| Send team announcement | [references/recipe-send-team-announcement.md](references/recipe-send-team-announcement.md) |
+| Create feedback form | [references/recipe-create-feedback-form.md](references/recipe-create-feedback-form.md) |
+| Create Meet space | [references/recipe-create-meet-space.md](references/recipe-create-meet-space.md) |
+| Review Meet participants | [references/recipe-review-meet-participants.md](references/recipe-review-meet-participants.md) |
+| Create presentation | [references/recipe-create-presentation.md](references/recipe-create-presentation.md) |
+| Collect form responses | [references/recipe-collect-form-responses.md](references/recipe-collect-form-responses.md) |
+| Create classroom course | [references/recipe-create-classroom-course.md](references/recipe-create-classroom-course.md) |
+
+## Exit Codes
+
+| Code | Meaning |
+|------|---------|
+| 0 | Success |
+| 1 | API error — Google returned an error response |
+| 2 | Auth error — credentials missing or invalid |
+| 3 | Validation — bad arguments or input |
+| 4 | Discovery — could not fetch API schema |
+| 5 | Internal — unexpected failure |
+
+## Community & Feedback
+
+- Star the repo: https://github.com/googleworkspace/cli
+- Bugs / feature requests: https://github.com/googleworkspace/cli/issues
+- Always search existing issues before creating new ones

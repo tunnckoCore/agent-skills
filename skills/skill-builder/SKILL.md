@@ -24,12 +24,14 @@ Every skill has these components:
 ```
 skill-name/
 ├── SKILL.md           # Diagnostic framework + documentation
-├── scripts/           # Deno TypeScript tools
+├── scripts/           # Deno/bun TypeScript tools
 │   └── *.ts
-├── data/              # JSON datasets (if needed)
+├── data/              # JSON datasets (optional)
 │   └── *.json
 └── references/        # Supporting documentation (optional)
     └── *.md
+└── templates/         # optional
+└── assets/            # icons, fonts, other assets
 ```
 
 ### SKILL.md Structure

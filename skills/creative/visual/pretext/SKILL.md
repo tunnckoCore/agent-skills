@@ -8,7 +8,7 @@ platforms: [linux, macos, windows]
 metadata:
   hermes:
     tags: [creative-coding, typography, pretext, ascii-art, canvas, generative, text-layout, kinetic-typography]
-    related_skills: [p5js, one-off-html-artifacts, excalidraw, architecture-diagram]
+    related_skills: [p5js, design-one-off-html, excalidraw, architecture-diagram]
 ---
 
 # Pretext Creative Demos

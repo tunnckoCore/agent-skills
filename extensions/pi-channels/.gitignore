@@ -1,0 +1,6 @@
+node_modules/
+.pi/
+.todo/
+.todos/
+.todos/
+src/adapters/transcribe-apple-v2

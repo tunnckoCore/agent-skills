@@ -1,0 +1,189 @@
+:root {
+	--bg: #0a0a0f; --bg2: #12121a; --bg3: #1a1a25;
+	--fg: #e0e0e8; --fg2: #888898; --fg3: #555568;
+	--accent: #7c6ff0; --accent2: #9d8cf0;
+	--green: #4ade80; --red: #f87171; --yellow: #fbbf24; --blue: #60a5fa;
+	--purple: #a855f7; --orange: #fb923c;
+	--border: #2a2a3a; --radius: 8px;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: var(--bg); color: var(--fg); font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif; font-size: 14px; line-height: 1.5; }
+.container { max-width: 1400px; margin: 0 auto; padding: 20px; }
+
+/* Toolbar */
+.proj-toolbar { display: flex; gap: 8px; align-items: center; margin-bottom: 16px; flex-wrap: wrap; }
+.proj-toolbar select, .proj-toolbar input { padding: 6px 10px; border: 1px solid var(--border); border-radius: 6px; background: var(--bg2); color: var(--fg); font-size: 12px; font-family: inherit; }
+.proj-toolbar select:focus, .proj-toolbar input:focus { outline: none; border-color: var(--accent); }
+.proj-toolbar .proj-search { width: 220px; }
+.proj-toolbar .proj-stats { margin-left: auto; font-size: 12px; color: var(--fg3); }
+
+.proj-view-toggle { display: flex; gap: 2px; background: var(--bg2); border-radius: 6px; padding: 2px; }
+.proj-view-toggle button { padding: 4px 10px; border: none; border-radius: 4px; background: transparent; color: var(--fg2); font-size: 11px; cursor: pointer; transition: all 0.15s; }
+.proj-view-toggle button.active { background: var(--accent); color: var(--bg); }
+
+.proj-sort { display: flex; gap: 2px; background: var(--bg2); border-radius: 6px; padding: 2px; }
+.proj-sort button { padding: 4px 10px; border: none; border-radius: 4px; background: transparent; color: var(--fg2); font-size: 11px; cursor: pointer; transition: all 0.15s; }
+.proj-sort button.active { background: var(--accent); color: var(--bg); }
+
+.btn-manage { padding: 4px 10px; border: 1px solid var(--border); border-radius: 6px; background: var(--bg2); color: var(--fg2); font-size: 11px; cursor: pointer; }
+.btn-manage:hover { border-color: var(--accent); color: var(--fg); }
+
+/* Card grid */
+.proj-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 12px; }
+.proj-card { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; transition: all 0.15s; position: relative; overflow: hidden; }
+.proj-card:hover { border-color: var(--accent); box-shadow: 0 2px 12px rgba(0,0,0,0.2); }
+.proj-card.dirty { border-left: 3px solid var(--yellow); }
+.proj-card.clean { border-left: 3px solid var(--green); }
+.proj-card.no-git { border-left: 3px solid var(--fg3); opacity: 0.6; }
+
+.proj-card-header { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
+.proj-card-name { font-size: 15px; font-weight: 600; flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.proj-card-branch { font-family: "SF Mono", "Fira Code", monospace; font-size: 11px; padding: 2px 8px; border-radius: 4px; background: rgba(124,111,240,0.12); color: var(--accent2); white-space: nowrap; max-width: 120px; overflow: hidden; text-overflow: ellipsis; }
+
+.proj-card-commit { font-size: 12px; color: var(--fg2); margin-bottom: 8px; display: flex; align-items: baseline; gap: 6px; }
+.proj-card-commit .hash { font-family: "SF Mono", "Fira Code", monospace; font-size: 11px; color: var(--fg3); }
+.proj-card-commit .msg { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.proj-card-commit .time { font-size: 11px; color: var(--fg3); white-space: nowrap; }
+
+.proj-card-stats { display: flex; gap: 12px; flex-wrap: wrap; }
+.proj-stat { font-size: 11px; display: flex; align-items: center; gap: 4px; }
+.proj-stat .dot { width: 6px; height: 6px; border-radius: 50%; display: inline-block; }
+.proj-stat .dot.green { background: var(--green); }
+.proj-stat .dot.red { background: var(--red); }
+.proj-stat .dot.yellow { background: var(--yellow); }
+.proj-stat .dot.blue { background: var(--blue); }
+.proj-stat .dot.purple { background: var(--purple); }
+
+.proj-badge { font-size: 10px; padding: 2px 6px; border-radius: 3px; font-weight: 600; }
+.proj-badge.clean { background: rgba(74,222,128,0.12); color: var(--green); }
+.proj-badge.dirty { background: rgba(251,191,36,0.12); color: var(--yellow); }
+.proj-badge.no-remote { background: rgba(136,136,152,0.12); color: var(--fg3); }
+.proj-badge.ahead { background: rgba(96,165,250,0.12); color: var(--blue); }
+.proj-badge.behind { background: rgba(251,146,60,0.12); color: var(--orange); }
+
+.proj-card-footer { display: flex; gap: 6px; margin-top: 10px; flex-wrap: wrap; align-items: center; }
+.proj-card-actions { position: absolute; top: 8px; right: 8px; opacity: 0; transition: opacity 0.15s; }
+.proj-card:hover .proj-card-actions { opacity: 1; }
+.proj-card-actions button { background: var(--bg3); border: 1px solid var(--border); border-radius: 4px; color: var(--fg3); font-size: 10px; padding: 2px 6px; cursor: pointer; transition: all 0.15s; }
+.proj-card-actions button:hover { color: var(--red); border-color: var(--red); }
+
+/* Table view */
+.proj-table-wrap { overflow-x: auto; background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius); }
+.proj-table-wrap table { width: 100%; border-collapse: collapse; }
+.proj-table-wrap th { text-align: left; padding: 8px 10px; font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; color: var(--fg3); border-bottom: 1px solid var(--border); background: var(--bg2); position: sticky; top: 0; cursor: pointer; user-select: none; }
+.proj-table-wrap th:hover { color: var(--fg2); }
+.proj-table-wrap td { padding: 8px 10px; border-bottom: 1px solid rgba(136,136,152,0.1); font-size: 13px; vertical-align: middle; }
+.proj-table-wrap tr:hover { background: rgba(136,136,152,0.04); }
+.proj-table-name { font-weight: 600; }
+.proj-table-hash { font-family: "SF Mono", "Fira Code", monospace; font-size: 11px; color: var(--fg3); }
+.proj-table-msg { color: var(--fg2); max-width: 300px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+/* Manage modal */
+.proj-manage-overlay { display: none; position: fixed; inset: 0; z-index: 1000; background: rgba(0,0,0,0.6); backdrop-filter: blur(4px); justify-content: center; align-items: center; }
+.proj-manage-overlay.open { display: flex; }
+.proj-manage { background: var(--bg); border: 1px solid var(--border); border-radius: 12px; padding: 24px; width: 600px; max-width: 90vw; max-height: 80vh; overflow-y: auto; box-shadow: 0 20px 60px rgba(0,0,0,0.4); }
+.proj-manage h3 { margin: 0 0 16px 0; font-size: 16px; }
+.proj-manage h4 { font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px; color: var(--fg3); margin: 16px 0 8px 0; }
+.proj-manage-item { display: flex; align-items: center; gap: 8px; padding: 6px 0; border-bottom: 1px solid rgba(136,136,152,0.1); font-size: 13px; }
+.proj-manage-item .item-path { flex: 1; font-family: "SF Mono", "Fira Code", monospace; font-size: 12px; color: var(--fg2); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.proj-manage-item button { background: transparent; border: 1px solid var(--border); border-radius: 4px; color: var(--fg3); font-size: 11px; padding: 2px 8px; cursor: pointer; transition: all 0.15s; white-space: nowrap; }
+.proj-manage-item button:hover { color: var(--red); border-color: var(--red); }
+.proj-manage-empty { color: var(--fg3); font-size: 12px; padding: 8px 0; }
+
+.proj-add-form { display: flex; gap: 8px; margin-top: 8px; }
+.proj-add-form input { flex: 1; padding: 6px 10px; border: 1px solid var(--border); border-radius: 6px; background: var(--bg2); color: var(--fg); font-size: 12px; font-family: "SF Mono", "Fira Code", monospace; }
+.proj-add-form input:focus { outline: none; border-color: var(--accent); }
+.proj-add-form button { padding: 6px 14px; border: 1px solid var(--accent); border-radius: 6px; background: var(--accent); color: var(--bg); font-size: 12px; font-weight: 600; cursor: pointer; white-space: nowrap; }
+.proj-add-form button:hover { opacity: 0.85; }
+.proj-add-error { color: var(--red); font-size: 12px; margin-top: 4px; display: none; }
+.proj-manage-close { display: flex; justify-content: flex-end; margin-top: 16px; }
+.proj-manage-close button { padding: 6px 16px; border: 1px solid var(--border); border-radius: 6px; background: var(--bg2); color: var(--fg2); font-size: 12px; cursor: pointer; }
+.proj-manage-close button:hover { background: var(--accent); color: var(--bg); border-color: var(--accent); }
+
+.proj-loading { text-align: center; padding: 60px 20px; color: var(--fg3); }
+.proj-loading .spinner { display: inline-block; width: 20px; height: 20px; border: 2px solid var(--border); border-top-color: var(--accent); border-radius: 50%; animation: spin 0.6s linear infinite; margin-bottom: 12px; }
+@keyframes spin { to { transform: rotate(360deg); } }
+.proj-empty { text-align: center; padding: 40px 20px; color: var(--fg3); }
+
+/* ── Detail modal ───────────────────────────────────────────── */
+.proj-detail-overlay { display: none; position: fixed; inset: 0; z-index: 1000; background: rgba(0,0,0,0.65); backdrop-filter: blur(6px); justify-content: center; align-items: center; }
+.proj-detail-overlay.open { display: flex; }
+.proj-detail { background: var(--bg); border: 1px solid var(--border); border-radius: 14px; width: 900px; max-width: 92vw; max-height: 88vh; display: flex; flex-direction: column; box-shadow: 0 24px 80px rgba(0,0,0,0.5); overflow: hidden; }
+
+.proj-detail-header { padding: 20px 24px 12px; border-bottom: 1px solid var(--border); position: relative; }
+.proj-detail-title-row { display: flex; align-items: center; gap: 12px; padding-right: 44px; }
+.proj-detail-header h2 { font-size: 20px; font-weight: 700; margin: 0; flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.proj-detail-branch-badge { font-family: "SF Mono", "Fira Code", monospace; font-size: 12px; padding: 3px 10px; border-radius: 5px; background: rgba(124,111,240,0.12); color: var(--accent2); white-space: nowrap; }
+.proj-detail-meta { font-size: 12px; color: var(--fg3); margin-top: 6px; display: flex; gap: 16px; flex-wrap: wrap; }
+.proj-detail-meta span { display: flex; align-items: center; gap: 4px; }
+.proj-detail-close { position: absolute; top: 16px; right: 16px; background: none; border: 1px solid var(--border); border-radius: 6px; color: var(--fg3); font-size: 18px; width: 32px; height: 32px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.15s; }
+.proj-detail-close:hover { color: var(--fg); border-color: var(--fg3); }
+
+.proj-detail-tabs { display: flex; gap: 2px; padding: 0 24px; background: var(--bg2); border-bottom: 1px solid var(--border); }
+.proj-detail-tabs button { padding: 10px 16px; border: none; background: transparent; color: var(--fg3); font-size: 13px; cursor: pointer; border-bottom: 2px solid transparent; transition: all 0.15s; font-family: inherit; }
+.proj-detail-tabs button:hover { color: var(--fg2); }
+.proj-detail-tabs button.active { color: var(--accent2); border-bottom-color: var(--accent); }
+
+.proj-detail-body { flex: 1; overflow-y: auto; padding: 20px 24px; min-height: 300px; }
+.proj-detail-loading { text-align: center; padding: 60px 20px; color: var(--fg3); }
+
+/* Readme rendering */
+.proj-readme { line-height: 1.7; color: var(--fg); }
+.proj-readme h1 { font-size: 22px; font-weight: 700; margin: 0 0 12px 0; padding-bottom: 8px; border-bottom: 1px solid var(--border); }
+.proj-readme h2 { font-size: 18px; font-weight: 600; margin: 24px 0 8px 0; padding-bottom: 6px; border-bottom: 1px solid rgba(42,42,58,0.5); }
+.proj-readme h3 { font-size: 15px; font-weight: 600; margin: 20px 0 6px 0; }
+.proj-readme h4 { font-size: 14px; font-weight: 600; margin: 16px 0 4px 0; color: var(--fg2); }
+.proj-readme p { margin: 8px 0; }
+.proj-readme ul, .proj-readme ol { margin: 8px 0; padding-left: 24px; }
+.proj-readme li { margin: 3px 0; }
+.proj-readme code { font-family: "SF Mono", "Fira Code", monospace; font-size: 13px; background: var(--bg3); padding: 2px 6px; border-radius: 4px; color: var(--accent2); }
+.proj-readme pre { background: var(--bg2); border: 1px solid var(--border); border-radius: 8px; padding: 14px 16px; overflow-x: auto; margin: 12px 0; }
+.proj-readme pre code { background: none; padding: 0; color: var(--fg2); font-size: 12px; }
+.proj-readme blockquote { border-left: 3px solid var(--accent); padding: 4px 12px; margin: 12px 0; color: var(--fg2); background: rgba(124,111,240,0.05); border-radius: 0 6px 6px 0; }
+.proj-readme a { color: var(--accent2); text-decoration: none; }
+.proj-readme a:hover { text-decoration: underline; }
+.proj-readme table { border-collapse: collapse; margin: 12px 0; width: 100%; }
+.proj-readme th, .proj-readme td { border: 1px solid var(--border); padding: 6px 10px; text-align: left; font-size: 13px; }
+.proj-readme th { background: var(--bg2); font-weight: 600; }
+.proj-readme hr { border: none; border-top: 1px solid var(--border); margin: 20px 0; }
+.proj-readme img { max-width: 100%; border-radius: 6px; }
+.proj-readme .no-readme { text-align: center; padding: 40px 20px; color: var(--fg3); }
+
+/* Tasks tab */
+.proj-tasks-summary { display: flex; gap: 12px; margin-bottom: 16px; flex-wrap: wrap; }
+.proj-tasks-stat { font-size: 13px; padding: 6px 12px; border-radius: 6px; background: var(--bg2); border: 1px solid var(--border); }
+.proj-tasks-stat .num { font-weight: 700; margin-right: 4px; }
+.proj-tasks-stat.open .num { color: var(--blue); }
+.proj-tasks-stat.progress .num { color: var(--yellow); }
+.proj-tasks-stat.review .num { color: var(--purple); }
+.proj-tasks-stat.closed .num { color: var(--green); }
+
+.proj-task-list { display: flex; flex-direction: column; gap: 6px; }
+.proj-task-item { display: flex; align-items: flex-start; gap: 10px; padding: 10px 14px; background: var(--bg2); border: 1px solid var(--border); border-radius: 8px; transition: border-color 0.15s; }
+.proj-task-item:hover { border-color: rgba(124,111,240,0.3); }
+.proj-task-status { font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: 4px; white-space: nowrap; margin-top: 1px; }
+.proj-task-status.open { background: rgba(96,165,250,0.12); color: var(--blue); }
+.proj-task-status.in_progress { background: rgba(251,191,36,0.12); color: var(--yellow); }
+.proj-task-status.in_review { background: rgba(168,85,247,0.12); color: var(--purple); }
+.proj-task-status.closed { background: rgba(74,222,128,0.12); color: var(--green); }
+.proj-task-status.blocked { background: rgba(248,113,113,0.12); color: var(--red); }
+.proj-task-info { flex: 1; min-width: 0; }
+.proj-task-title { font-size: 13px; font-weight: 500; }
+.proj-task-meta { font-size: 11px; color: var(--fg3); margin-top: 3px; display: flex; gap: 10px; flex-wrap: wrap; }
+.proj-task-type { font-size: 10px; padding: 1px 6px; border-radius: 3px; background: var(--bg3); color: var(--fg2); }
+.proj-task-priority { font-size: 10px; padding: 1px 6px; border-radius: 3px; }
+.proj-task-priority.P0 { background: rgba(248,113,113,0.2); color: var(--red); }
+.proj-task-priority.P1 { background: rgba(251,146,60,0.15); color: var(--orange); }
+.proj-task-priority.P2 { background: rgba(251,191,36,0.12); color: var(--yellow); }
+.proj-task-priority.P3 { background: rgba(136,136,152,0.12); color: var(--fg3); }
+.proj-task-label { font-size: 10px; padding: 1px 6px; border-radius: 3px; background: rgba(124,111,240,0.1); color: var(--accent2); }
+.proj-no-tasks { text-align: center; padding: 40px 20px; color: var(--fg3); font-size: 13px; }
+
+/* Commits tab */
+.proj-commit-list { display: flex; flex-direction: column; gap: 0; }
+.proj-commit-item { display: flex; align-items: baseline; gap: 12px; padding: 8px 0; border-bottom: 1px solid rgba(136,136,152,0.08); }
+.proj-commit-item:last-child { border-bottom: none; }
+.proj-commit-hash { font-family: "SF Mono", "Fira Code", monospace; font-size: 12px; color: var(--accent); min-width: 60px; }
+.proj-commit-msg { font-size: 13px; color: var(--fg); flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.proj-commit-author { font-size: 11px; color: var(--fg3); white-space: nowrap; }
+.proj-commit-date { font-size: 11px; color: var(--fg3); white-space: nowrap; min-width: 60px; text-align: right; }
