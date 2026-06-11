@@ -22,13 +22,7 @@ personas, and multi-step recipes.
 The `gws` binary must be on `$PATH`. Version: 0.16.0+.
 
 ```bash
-# Browser-based OAuth (interactive)
-gws auth login
-
-# Service Account
-export GOOGLE_APPLICATION_CREDENTIALS=/path/to/key.json
-
-# Check status
+# Check status - if not logged - try with source ~/.config/gws/env - if not, report to the user
 gws auth status
 ```
 
