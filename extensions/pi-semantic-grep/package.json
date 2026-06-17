@@ -1,0 +1,65 @@
+{
+	"name": "@howaboua/pi-semantic-grep",
+	"version": "0.1.14",
+	"description": "Semantic code and docs search for pi, backed by OpenAI-compatible embeddings and repo-local SQLite indexes.",
+	"type": "module",
+	"license": "MIT",
+	"author": "Igor Warzocha",
+	"homepage": "https://github.com/IgorWarzocha/howaboua-pi-stuff/tree/main/packages/pi-semantic-grep#readme",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/IgorWarzocha/howaboua-pi-stuff.git",
+		"directory": "packages/pi-semantic-grep"
+	},
+	"bugs": {
+		"url": "https://github.com/IgorWarzocha/howaboua-pi-stuff/issues"
+	},
+	"keywords": [
+		"pi",
+		"pi-extension",
+		"semantic-search",
+		"semantic-grep",
+		"embeddings",
+		"sqlite",
+		"rag",
+		"code-search"
+	],
+	"files": [
+		"src",
+		"README.md",
+		"LICENSE",
+		"tsconfig.json",
+		"biome.json"
+	],
+	"pi": {
+		"extensions": [
+			"./src/index.ts"
+		]
+	},
+	"scripts": {
+		"check": "bun run lint && bun run typecheck",
+		"prepack": "bun run check",
+		"typecheck": "tsgo --noEmit",
+		"lint": "biome check .",
+		"format": "biome check --write ."
+	},
+	"dependencies": {
+		"better-sqlite3": "^12.10.0",
+		"typebox": "^1.0.55"
+	},
+	"devDependencies": {
+		"@types/better-sqlite3": "^7.6.13",
+		"@types/node": "^24.0.0",
+		"typescript": "^5.8.3",
+		"@biomejs/biome": "^2.4.16"
+	},
+	"peerDependencies": {
+		"@earendil-works/pi-coding-agent": "^0.79.0",
+		"@earendil-works/pi-tui": "^0.79.0"
+	},
+	"publishConfig": {
+		"access": "public"
+	},
+	"main": "src/index.ts",
+	"exports": "./src/index.ts"
+}

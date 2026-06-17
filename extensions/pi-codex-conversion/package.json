@@ -1,0 +1,98 @@
+{
+  "name": "@howaboua/pi-codex-conversion",
+  "version": "2.1.2",
+  "description": "Codex-oriented tool and prompt adapter for pi coding agent",
+  "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/IgorWarzocha/howaboua-pi-stuff.git",
+    "directory": "packages/pi-codex-conversion"
+  },
+  "homepage": "https://github.com/IgorWarzocha/howaboua-pi-stuff/tree/main/packages/pi-codex-conversion#readme",
+  "bugs": {
+    "url": "https://github.com/IgorWarzocha/howaboua-pi-stuff/issues"
+  },
+  "keywords": [
+    "pi-package",
+    "pi",
+    "pi-coding-agent",
+    "extension",
+    "codex",
+    "adapter",
+    "apply-patch"
+  ],
+  "license": "MIT",
+  "pi": {
+    "extensions": [
+      "./src/index.ts"
+    ]
+  },
+  "files": [
+    "src/**/*.ts",
+    "src/**/*.md",
+    "bin/apply_patch",
+    "bin/apply_patch.cmd",
+    "bin/view_image.cmd",
+    "bin/web_run.cmd",
+    "bin/imagegen.cmd",
+    "available-tools.png",
+    "CHANGELOG.md",
+    "PATH_TOOLS.md",
+    "README.md",
+    "LICENSE",
+    "bin/view_image",
+    "bin/web_run",
+    "bin/imagegen",
+    "src/tools/**/bin/**",
+    "src/tools/**/*.rs",
+    "src/tools/**/Cargo.toml",
+    "src/tools/Cargo.lock",
+    "src/tools/rust/UPSTREAM.*",
+    "!src/tools/target/**"
+  ],
+  "scripts": {
+    "typecheck": "tsgo -p tsconfig.json",
+    "test": "tsx --test tests/**/*.test.ts",
+    "check": "bun run typecheck && bun run test",
+    "publish:dry-run": "npm publish --dry-run",
+    "publish:dev": "npm publish --tag dev",
+    "release:dev": "npm version prerelease --preid dev && npm publish --tag dev",
+    "prepack": "bun run check",
+    "prepublishOnly": "bun run verify:codex-tool-binaries",
+    "build:apply-patch": "node scripts/build-apply-patch-binary.mjs",
+    "sync:apply-patch-source": "node scripts/sync-apply-patch-source.mjs",
+    "verify:codex-tool-binaries": "node scripts/verify-codex-tool-binaries.mjs",
+    "build:changed-path-tools": "node scripts/build-changed-path-tool-binaries.mjs",
+    "build:path-tool": "node scripts/build-path-tool-binary.mjs"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "peerDependencies": {
+    "@earendil-works/pi-ai": "*",
+    "@earendil-works/pi-coding-agent": "*",
+    "@earendil-works/pi-tui": "*",
+    "typebox": "*"
+  },
+  "devDependencies": {
+    "@earendil-works/pi-agent-core": "^0.79.4",
+    "@earendil-works/pi-ai": "^0.79.4",
+    "@earendil-works/pi-coding-agent": "^0.79.4",
+    "@earendil-works/pi-tui": "^0.79.4",
+    "tsx": "^4.20.5",
+    "typebox": "^1.1.24",
+    "typescript": "^5.9.3"
+  },
+  "dependencies": {
+    "partial-json": "^0.1.7",
+    "proxy-from-env": "1.1.0",
+    "tree-sitter-bash": "^0.25.1",
+    "web-tree-sitter": "^0.26.7"
+  },
+  "bin": {
+    "apply_patch": "./bin/apply_patch",
+    "view_image": "./bin/view_image",
+    "web_run": "./bin/web_run",
+    "imagegen": "./bin/imagegen"
+  }
+}
