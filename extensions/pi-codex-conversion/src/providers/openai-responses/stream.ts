@@ -1,7 +1,7 @@
-import { calculateCost, type Api, type AssistantMessage, type Model } from "@earendil-works/pi-ai";
+import { calculateCost, type Api, type AssistantMessage, type Model } from "@mariozechner/pi-ai";
 import type { ResponseStreamEvent } from "openai/resources/responses/responses.js";
 import { parse as partialParse } from "partial-json";
-import type { AssistantMessageEventStream } from "@earendil-works/pi-ai";
+import type { AssistantMessageEventStream } from "@mariozechner/pi-ai";
 import { encodeTextSignatureV1 } from "./signatures.ts";
 import { sanitizeImageGenerationCallItem, sanitizeWebSearchCallItem, type ImageGenerationCallBlock, type WebSearchCallBlock } from "./native-items.ts";
 import type { OpenAIResponsesStreamOptions } from "./shared.ts";

@@ -1,10 +1,10 @@
 import { randomUUID } from "node:crypto";
 import { spawn } from "node:child_process";
 import { dirname, join } from "node:path";
-import type { ExtensionAPI, ExtensionContext, ToolDefinition } from "@earendil-works/pi-coding-agent";
+import type { ExtensionAPI, ExtensionContext, ToolDefinition } from "@mariozechner/pi-coding-agent";
 import type { ResponseInput } from "openai/resources/responses/responses.js";
 import { Type } from "typebox";
-import { Container, Text } from "@earendil-works/pi-tui";
+import { Container, Text } from "@mariozechner/pi-tui";
 import { codexToolProviderEnv, CODEX_TOOL_PROVIDER_UNSUPPORTED_MESSAGE, resolveCodexToolProvider } from "../../adapter/codex-tool-provider.ts";
 import { WEB_SEARCH_TOOL_NAME } from "../../adapter/activation/tool-set.ts";
 import { renderCodexToolCell } from "../../ui/tool-rendering/codex-tool-cell.ts";

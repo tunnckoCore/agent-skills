@@ -1,6 +1,6 @@
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
-import { getAgentDir } from "@earendil-works/pi-coding-agent";
+import { getAgentDir } from "@mariozechner/pi-coding-agent";
 import { migrateCodexConversionConfigIfNeeded } from "./config-migration.ts";
 
 export type CodexVerbosity = "low" | "medium" | "high";

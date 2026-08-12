@@ -1,0 +1,13 @@
+{
+  "name": "skills-monorepo",
+  "private": true,
+  "type": "module",
+  "workspaces": [
+    "extensions/*"
+  ],
+  "scripts": {
+    "check": "bun --filter '*' run check",
+    "typecheck": "bun --filter '*' run typecheck",
+    "lint": "bun --filter '*' run lint"
+  }
+}

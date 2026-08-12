@@ -1,4 +1,4 @@
-import { Input } from "@earendil-works/pi-tui";
+import { Input } from "@mariozechner/pi-tui";
 import { DEFAULT_SHORTCUTS } from "../constants.js";
 
 const MAX_PARTS = 4;

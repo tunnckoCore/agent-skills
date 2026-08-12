@@ -1,7 +1,7 @@
 import { createServer, type Server } from "node:http";
 import { randomBytes, createHash } from "node:crypto";
-import { type OAuthDeviceCodeInfo, pollOAuthDeviceCodeFlow } from "@earendil-works/pi-ai/oauth";
-import type { ProviderConfig } from "@earendil-works/pi-coding-agent";
+import { type OAuthDeviceCodeInfo, pollOAuthDeviceCodeFlow } from "@mariozechner/pi-ai/oauth";
+import type { ProviderConfig } from "@mariozechner/pi-coding-agent";
 
 const CLIENT_ID = "app_EMoamEEZ73f0CkXaXp7hrann";
 const AUTH_BASE_URL = "https://auth.openai.com";

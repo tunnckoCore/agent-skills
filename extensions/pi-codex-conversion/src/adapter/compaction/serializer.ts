@@ -1,8 +1,8 @@
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
-import type { AgentMessage } from "@earendil-works/pi-agent-core";
-import { convertToLlm, getAgentDir } from "@earendil-works/pi-coding-agent";
-import type { Api, ImageContent, Message, Model, TextContent, ToolResultMessage, UserMessage } from "@earendil-works/pi-ai";
+import type { AgentMessage } from "@mariozechner/pi-agent-core";
+import { convertToLlm, getAgentDir } from "@mariozechner/pi-coding-agent";
+import type { Api, ImageContent, Message, Model, TextContent, ToolResultMessage, UserMessage } from "@mariozechner/pi-ai";
 import type { ResponsesCompatibleRequestPayload } from "./compaction-runtime.ts";
 import { CODEX_TOOL_CALL_PROVIDERS, convertResponsesMessages } from "../../providers/openai-responses/shared.ts";
 

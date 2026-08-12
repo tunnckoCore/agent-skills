@@ -1,7 +1,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import type { AgentMessage } from "@earendil-works/pi-agent-core";
-import type { Model } from "@earendil-works/pi-ai";
+import type { AgentMessage } from "@mariozechner/pi-agent-core";
+import type { Model } from "@mariozechner/pi-ai";
 import { buildNativeReplaySegments } from "../src/adapter/replay/payload-rewrite.ts";
 import { serializeMessagesToResponsesInput } from "../src/adapter/compaction/serializer.ts";
 import { NATIVE_COMPACTION_DISPLAY_MESSAGE_TYPE, NATIVE_COMPACTION_STRATEGY, type NativeCompactionEntry } from "../src/adapter/compaction/types.ts";

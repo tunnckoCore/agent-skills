@@ -1,5 +1,5 @@
 import { processResponsesStream } from "../openai-responses/shared.ts";
-import type { Api, AssistantMessage, AssistantMessageEventStream, Model } from "@earendil-works/pi-ai";
+import type { Api, AssistantMessage, AssistantMessageEventStream, Model } from "@mariozechner/pi-ai";
 import { CODEX_RESPONSE_STATUSES } from "./constants.ts";
 import { applyServiceTierPricing, resolveCodexServiceTier } from "./usage.ts";
 import type { OpenAICodexStreamOptions, ServiceTier, StreamEventShape } from "./types.ts";

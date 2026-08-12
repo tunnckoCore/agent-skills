@@ -1,4 +1,4 @@
-import { Container, Image, Spacer, Text } from "@earendil-works/pi-tui";
+import { Container, Image, Spacer, Text } from "@mariozechner/pi-tui";
 
 interface ImageContentLike {
 	type: "image";

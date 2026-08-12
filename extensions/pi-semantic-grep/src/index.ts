@@ -1,6 +1,6 @@
 import { existsSync } from "node:fs";
-import { type ExtensionAPI, keyHint } from "@earendil-works/pi-coding-agent";
-import { Text } from "@earendil-works/pi-tui";
+import { type ExtensionAPI, keyHint } from "@mariozechner/pi-coding-agent";
+import { Text } from "@mariozechner/pi-tui";
 import { Type } from "typebox";
 import { ensureConfig } from "./config.js";
 import { dbPathFor, openDb } from "./db.js";

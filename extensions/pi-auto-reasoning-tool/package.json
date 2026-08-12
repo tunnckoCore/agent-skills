@@ -47,12 +47,12 @@
 		"access": "public"
 	},
 	"dependencies": {
-		"@earendil-works/pi-ai": "^0.79.0"
+		"@mariozechner/pi-ai": "0.70.x"
 	},
 	"devDependencies": {
 		"@types/node": "^24.10.0",
 		"typescript": "^5.9.3",
-		"@earendil-works/pi-coding-agent": "^0.79.0",
+		"@mariozechner/pi-coding-agent": "0.70.x",
 		"@biomejs/biome": "^2.4.16"
 	}
 }

@@ -1,5 +1,5 @@
-import type { AgentMessage } from "@earendil-works/pi-agent-core";
-import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
+import type { AgentMessage } from "@mariozechner/pi-agent-core";
+import type { ExtensionAPI } from "@mariozechner/pi-coding-agent";
 import { LEGACY_MESSAGE_TYPE, MESSAGE_TYPE } from "./constants.js";
 import type { BtwSession, BtwTurn } from "./types.js";
 

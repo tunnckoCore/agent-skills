@@ -1,4 +1,4 @@
-import { Text } from "@earendil-works/pi-tui";
+import { Text } from "@mariozechner/pi-tui";
 import type { RenderTheme } from "./codex-rendering.ts";
 
 export function renderCodexToolCell(title: string, detail: string | undefined, theme: RenderTheme): Text {

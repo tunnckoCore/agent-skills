@@ -1,6 +1,6 @@
-import type { ExtensionAPI, ExtensionContext, ToolDefinition } from "@earendil-works/pi-coding-agent";
+import type { ExtensionAPI, ExtensionContext, ToolDefinition } from "@mariozechner/pi-coding-agent";
 import { Type } from "typebox";
-import { Container, Image, Spacer, Text } from "@earendil-works/pi-tui";
+import { Container, Image, Spacer, Text } from "@mariozechner/pi-tui";
 import { readFileSync } from "node:fs";
 import { codexToolProviderEnv, resolveCodexToolProvider } from "../../adapter/codex-tool-provider.ts";
 import { IMAGE_GENERATION_TOOL_NAME } from "../../adapter/activation/tool-set.ts";

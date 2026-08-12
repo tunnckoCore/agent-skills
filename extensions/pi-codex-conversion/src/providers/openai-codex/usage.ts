@@ -1,4 +1,4 @@
-import type { Api, AssistantMessage, Model } from "@earendil-works/pi-ai";
+import type { Api, AssistantMessage, Model } from "@mariozechner/pi-ai";
 import type { ServiceTier } from "./types.ts";
 
 function getServiceTierCostMultiplier(model: Model<Api>, serviceTier: ServiceTier): number {

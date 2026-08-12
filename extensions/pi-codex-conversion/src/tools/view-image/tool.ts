@@ -3,9 +3,9 @@ import {
 	type ExtensionAPI,
 	type ExtensionContext,
 	type ToolDefinition,
-} from "@earendil-works/pi-coding-agent";
+} from "@mariozechner/pi-coding-agent";
 import { Type, type TSchema } from "typebox";
-import { Text } from "@earendil-works/pi-tui";
+import { Text } from "@mariozechner/pi-tui";
 import { parseSSE } from "../../providers/openai-codex/sse.ts";
 import { codexToolProviderHeaders, resolveCodexResponsesUrl, resolveCodexToolProvider } from "../../adapter/codex-tool-provider.ts";
 import { getBundledPathToolBinaryPath } from "../path/binary.ts";

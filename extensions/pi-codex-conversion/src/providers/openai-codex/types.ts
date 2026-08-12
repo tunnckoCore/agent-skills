@@ -1,4 +1,4 @@
-import type { AssistantMessage, SimpleStreamOptions } from "@earendil-works/pi-ai";
+import type { AssistantMessage, SimpleStreamOptions } from "@mariozechner/pi-ai";
 import type { ResponseCreateParamsStreaming } from "openai/resources/responses/responses.js";
 
 export interface WebSocketLike {

@@ -1,5 +1,5 @@
-import type { AgentMessage } from "@earendil-works/pi-agent-core";
-import type { BranchSummaryEntry, CustomMessageEntry, SessionEntry, SessionMessageEntry } from "@earendil-works/pi-coding-agent";
+import type { AgentMessage } from "@mariozechner/pi-agent-core";
+import type { BranchSummaryEntry, CustomMessageEntry, SessionEntry, SessionMessageEntry } from "@mariozechner/pi-coding-agent";
 import { isAdapterContextExcludedCustomMessageEntry } from "../prompt/context-filter.ts";
 
 function toBranchSummaryMessage(entry: BranchSummaryEntry): AgentMessage {

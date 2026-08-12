@@ -1,5 +1,5 @@
-import type { ExtensionContext } from "@earendil-works/pi-coding-agent";
-import type { Model } from "@earendil-works/pi-ai";
+import type { ExtensionContext } from "@mariozechner/pi-coding-agent";
+import type { Model } from "@mariozechner/pi-ai";
 import { DEFAULT_CODEX_BASE_URL } from "../providers/openai-codex/constants.ts";
 import { extractAccountId } from "../providers/openai-codex/headers.ts";
 

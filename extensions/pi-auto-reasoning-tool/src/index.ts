@@ -3,11 +3,11 @@ import {
 	isContextOverflow,
 	StringEnum,
 	Type,
-} from "@earendil-works/pi-ai";
+} from "@mariozechner/pi-ai";
 import type {
 	ExtensionAPI,
 	ExtensionContext,
-} from "@earendil-works/pi-coding-agent";
+} from "@mariozechner/pi-coding-agent";
 
 type ToolReasoningLevel = "low" | "medium" | "high";
 type AppliedReasoningLevel = "off" | "minimal" | ToolReasoningLevel | "xhigh";

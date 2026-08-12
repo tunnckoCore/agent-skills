@@ -1,4 +1,4 @@
-import type { CompactionEntry, SessionEntry } from "@earendil-works/pi-coding-agent";
+import type { CompactionEntry, SessionEntry } from "@mariozechner/pi-coding-agent";
 import {
 	isNativeCompactionDetails,
 	isNativeCompactionEntry,

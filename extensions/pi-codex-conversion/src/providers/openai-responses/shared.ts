@@ -1,4 +1,4 @@
-import type { Api, Context, Model, Tool, Usage } from "@earendil-works/pi-ai";
+import type { Api, Context, Model, Tool, Usage } from "@mariozechner/pi-ai";
 import type { ResponseCreateParamsStreaming, ResponseInput, Tool as OpenAITool } from "openai/resources/responses/responses.js";
 import { parseTextSignature, shortHash } from "./signatures.ts";
 import { encryptedWebRunOutputFromDetails, imageDetailForResponses, isImageGenerationCallBlock, isWebSearchCallBlock, sanitizeImageGenerationCallItem, sanitizeWebSearchCallItem, type ImageDetail, type ImageGenerationCallBlock, type WebSearchCallBlock } from "./native-items.ts";

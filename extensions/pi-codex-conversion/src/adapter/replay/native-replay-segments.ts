@@ -1,6 +1,6 @@
-import type { AgentMessage } from "@earendil-works/pi-agent-core";
-import type { Api, Model } from "@earendil-works/pi-ai";
-import type { SessionEntry } from "@earendil-works/pi-coding-agent";
+import type { AgentMessage } from "@mariozechner/pi-agent-core";
+import type { Api, Model } from "@mariozechner/pi-ai";
+import type { SessionEntry } from "@mariozechner/pi-coding-agent";
 import type { ResponsesCompatibleRequestPayload } from "../compaction/compaction-runtime.ts";
 import type { NativeCompactionEntry } from "../compaction/types.js";
 import { compareResponsesInputParity, serializeMessagesToResponsesInput, type ResponsesInputItem, type ResponsesInputMessageItem } from "../compaction/serializer.js";

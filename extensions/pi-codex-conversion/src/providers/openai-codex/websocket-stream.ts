@@ -1,4 +1,4 @@
-import type { Api, AssistantMessage, AssistantMessageEventStream, Model, SimpleStreamOptions } from "@earendil-works/pi-ai";
+import type { Api, AssistantMessage, AssistantMessageEventStream, Model, SimpleStreamOptions } from "@mariozechner/pi-ai";
 import { CODEX_TOOL_CALL_PROVIDERS, convertResponsesMessages } from "../openai-responses/shared.ts";
 import { normalizeTimeoutMs } from "./sse.ts";
 import { buildCachedWebSocketRequestBody } from "./websocket-continuation.ts";

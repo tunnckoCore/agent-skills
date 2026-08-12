@@ -1,5 +1,5 @@
-import type { Message } from "@earendil-works/pi-ai";
-import type { ExtensionContext } from "@earendil-works/pi-coding-agent";
+import type { Message } from "@mariozechner/pi-ai";
+import type { ExtensionContext } from "@mariozechner/pi-coding-agent";
 import type { BtwChild } from "./rpc-child.js";
 
 export type ThinkingLevel =

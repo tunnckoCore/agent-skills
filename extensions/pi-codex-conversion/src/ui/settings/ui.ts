@@ -1,5 +1,5 @@
-import { getSettingsListTheme, type ExtensionContext, type Theme } from "@earendil-works/pi-coding-agent";
-import { Container, type Focusable, Input, matchesKey, SettingsList, Spacer, Text, truncateToWidth, type SettingItem } from "@earendil-works/pi-tui";
+import { getSettingsListTheme, type ExtensionContext, type Theme } from "@mariozechner/pi-coding-agent";
+import { Container, type Focusable, Input, matchesKey, SettingsList, Spacer, Text, truncateToWidth, type SettingItem } from "@mariozechner/pi-tui";
 import {
 	COMPACTION_MODELS,
 	COMPACTION_REASONING_LEVELS,

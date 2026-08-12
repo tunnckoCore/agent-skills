@@ -1,5 +1,5 @@
-import type { ExtensionAPI, ExtensionContext, SessionBeforeCompactEvent } from "@earendil-works/pi-coding-agent";
-import { clampThinkingLevel, type ModelThinkingLevel, type Tool } from "@earendil-works/pi-ai";
+import type { ExtensionAPI, ExtensionContext, SessionBeforeCompactEvent } from "@mariozechner/pi-coding-agent";
+import { clampThinkingLevel, type ModelThinkingLevel, type Tool } from "@mariozechner/pi-ai";
 import { executeNativeCompaction } from "./compact-client.ts";
 import { extractCompactionSummaryText, hasCompactionOutputItem, sanitizeCompactedWindow, summarizeCompactionOutputForDiagnostics } from "./compaction-output.ts";
 import { findLatestNativeCompactionEntry, findLatestNativeCompactionEntryIndex, resolveLatestNativeCompactionEntry } from "./details-store.ts";

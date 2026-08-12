@@ -1,6 +1,6 @@
-import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
-import type { Model } from "@earendil-works/pi-ai";
-import { Box, Text, truncateToWidth } from "@earendil-works/pi-tui";
+import type { ExtensionAPI } from "@mariozechner/pi-coding-agent";
+import type { Model } from "@mariozechner/pi-ai";
+import { Box, Text, truncateToWidth } from "@mariozechner/pi-tui";
 import { getDefaultCodexRuntimeShell } from "./adapter/prompt/runtime-shell.ts";
 import { clearApplyPatchRenderState, registerApplyPatchTool } from "./tools/apply-patch/tool.ts";
 import { clearPathApplyPatchPreviewStates } from "./tools/path/apply-patch-preview.ts";

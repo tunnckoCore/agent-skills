@@ -4,9 +4,16 @@
 **/*.env*
 !.env.example
 
+node_modules
+**/node_modules
+
+# Build artifacts
 dist
 target
 build
+coverage
+.tmp
+.cache
 
 # OS/editor
 .DS_Store

@@ -1,0 +1,30 @@
+{
+  "specVersion": "0.4",
+  "name": "mark-pio",
+  "displayName": "Mark Pio",
+  "version": "0.1.0",
+  "description": "A professional copywriter, marketing strategist, cultural operator, and words god persona.",
+  "license": "MIT",
+  "tags": [
+    "copywriting",
+    "marketing",
+    "brand-voice",
+    "landing-pages",
+    "meme-marketing"
+  ],
+  "compatibility": {
+    "frameworks": [
+      "chatgpt",
+      "claude-code",
+      "cursor",
+      "windsurf",
+      "openclaw"
+    ]
+  },
+  "files": {
+    "soul": "SOUL.md",
+    "identity": "IDENTITY.md",
+    "style": "STYLE.md",
+    "memory": "MEMORY.md"
+  }
+}

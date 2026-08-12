@@ -3,8 +3,8 @@ import { resolve } from "node:path";
 import {
 	type ExtensionAPI,
 	withFileMutationQueue,
-} from "@earendil-works/pi-coding-agent";
-import { Text } from "@earendil-works/pi-tui";
+} from "@mariozechner/pi-coding-agent";
+import { Text } from "@mariozechner/pi-tui";
 import { Type } from "typebox";
 
 const ventSchema = Type.Object(

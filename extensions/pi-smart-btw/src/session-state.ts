@@ -1,7 +1,7 @@
 import type {
 	ExtensionAPI,
 	ExtensionContext,
-} from "@earendil-works/pi-coding-agent";
+} from "@mariozechner/pi-coding-agent";
 import { MAX_BTW_SESSIONS, NUMBERED_SESSION_PATTERN } from "./constants.js";
 import type { BtwMessageDetails } from "./messages.js";
 import { doneTurns } from "./output.js";

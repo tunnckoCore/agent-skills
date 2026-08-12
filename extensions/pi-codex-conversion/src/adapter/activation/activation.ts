@@ -1,4 +1,4 @@
-import type { ExtensionAPI, ExtensionContext } from "@earendil-works/pi-coding-agent";
+import type { ExtensionAPI, ExtensionContext } from "@mariozechner/pi-coding-agent";
 import { isCodexLikeContext, isOpenAICodexContext, isResponsesContext } from "../prompt/codex-model.ts";
 import type { CodexConversionConfig } from "./config.ts";
 import type { AdapterState } from "./state.ts";

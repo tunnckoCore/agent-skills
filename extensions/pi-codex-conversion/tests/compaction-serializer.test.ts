@@ -3,7 +3,7 @@ import assert from "node:assert/strict";
 import { DEFAULT_CODEX_CONVERSION_CONFIG } from "../src/adapter/activation/config.ts";
 import { injectPendingNativeWindowIntoPiCompactionRequest } from "../src/adapter/compaction/compaction.ts";
 import type { AdapterState } from "../src/adapter/activation/state.ts";
-import type { Model } from "@earendil-works/pi-ai";
+import type { Model } from "@mariozechner/pi-ai";
 import { serializeMessagesToCompactRequest } from "../src/adapter/compaction/serializer.ts";
 
 const model = {

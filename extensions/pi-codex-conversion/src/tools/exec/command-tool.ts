@@ -1,8 +1,8 @@
-import type { ExtensionAPI, ExtensionContext } from "@earendil-works/pi-coding-agent";
+import type { ExtensionAPI, ExtensionContext } from "@mariozechner/pi-coding-agent";
 import { resolve } from "node:path";
 import { Type } from "typebox";
-import { keyHint, truncateToVisualLines } from "@earendil-works/pi-coding-agent";
-import { Container, Text, truncateToWidth } from "@earendil-works/pi-tui";
+import { keyHint, truncateToVisualLines } from "@mariozechner/pi-coding-agent";
+import { Container, Text, truncateToWidth } from "@mariozechner/pi-tui";
 import { renderExecCommandCall, renderGroupedExecCommandCall } from "../../ui/tool-rendering/codex-rendering.ts";
 import type { ExecCommandTracker } from "./command-state.ts";
 import type { ExecSessionManager, UnifiedExecResult } from "./session-manager.ts";

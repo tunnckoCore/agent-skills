@@ -1,0 +1,12 @@
+node_modules
+build
+dist
+target
+.cache
+.next
+.pi/agent-sessions
+coverage
+*.log*
+*.tsbuildinfo
+.env*
+!.env.example

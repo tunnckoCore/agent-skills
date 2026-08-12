@@ -2,12 +2,12 @@ import {
 	type ExtensionContext,
 	getSettingsListTheme,
 	type Theme,
-} from "@earendil-works/pi-coding-agent";
+} from "@mariozechner/pi-coding-agent";
 import {
 	type SettingItem,
 	SettingsList,
 	truncateToWidth,
-} from "@earendil-works/pi-tui";
+} from "@mariozechner/pi-tui";
 import { readConfig, THINKING_LEVELS } from "../config.js";
 import type { ResolvedBtwConfig } from "../types.js";
 import { editorCommand, openConfigInExternalEditor } from "./config-editor.js";

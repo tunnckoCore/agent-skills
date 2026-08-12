@@ -1,6 +1,6 @@
 import { Type } from "typebox";
-import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
-import { Container, Text } from "@earendil-works/pi-tui";
+import type { ExtensionAPI } from "@mariozechner/pi-coding-agent";
+import { Container, Text } from "@mariozechner/pi-tui";
 import { ExecutePatchError, type ExecutePatchResult } from "../../patch/types.ts";
 import { formatPatchTarget } from "./rendering.ts";
 import { executePatchWithRust } from "./executor.ts";

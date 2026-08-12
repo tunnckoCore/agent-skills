@@ -1,5 +1,5 @@
-import type { Api, Model } from "@earendil-works/pi-ai";
-import type { ExtensionContext } from "@earendil-works/pi-coding-agent";
+import type { Api, Model } from "@mariozechner/pi-ai";
+import type { ExtensionContext } from "@mariozechner/pi-coding-agent";
 
 export const DEFAULT_SUPPORTED_PROVIDERS = ["openai", "openai-codex"] as const;
 export const DEFAULT_SUPPORTED_APIS = ["openai-responses", "openai-codex-responses"] as const;

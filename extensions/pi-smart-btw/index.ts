@@ -3,8 +3,8 @@ import type {
 	ExtensionCommandContext,
 	ExtensionContext,
 	SessionEntry,
-} from "@earendil-works/pi-coding-agent";
-import { Box, Text } from "@earendil-works/pi-tui";
+} from "@mariozechner/pi-coding-agent";
+import { Box, Text } from "@mariozechner/pi-tui";
 import { ensureConfig, readConfig } from "./src/config.js";
 import {
 	DEFAULT_SHORTCUTS,

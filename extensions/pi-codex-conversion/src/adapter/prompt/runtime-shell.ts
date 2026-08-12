@@ -1,4 +1,4 @@
-import { getShellConfig } from "@earendil-works/pi-coding-agent";
+import { getShellConfig } from "@mariozechner/pi-coding-agent";
 
 export const CODEX_FALLBACK_SHELL = "/bin/bash";
 

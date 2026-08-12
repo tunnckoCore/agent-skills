@@ -1,4 +1,4 @@
-import type { ExtensionContext } from "@earendil-works/pi-coding-agent";
+import type { ExtensionContext } from "@mariozechner/pi-coding-agent";
 import { KEY_HINT, WIDGET_ID } from "./constants.js";
 import { listSessions, sessionStatus } from "./session-state.js";
 import type { BtwSession, BtwState } from "./types.js";

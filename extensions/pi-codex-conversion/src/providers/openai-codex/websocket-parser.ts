@@ -1,4 +1,4 @@
-import type { AssistantMessage, AssistantMessageEventStream } from "@earendil-works/pi-ai";
+import type { AssistantMessage, AssistantMessageEventStream } from "@mariozechner/pi-ai";
 import type { StreamEventShape, WebSocketLike } from "./types.ts";
 import { extractWebSocketCloseError, extractWebSocketError } from "./websocket-connection.ts";
 
