@@ -13,7 +13,7 @@ description: >
 
 # DRY Code Review Skill
 
-Perform a structured, thorough code review focused on the DRY (Don't Repeat Yourself) principle. The review is planned and tracked via a markdown file in `plans/`.
+Perform a structured, thorough code review focused on the DRY (Don't Repeat Yourself) principle. The review is planned and tracked via a markdown file in `docs/plans/`.
 
 ## Overview
 
@@ -23,7 +23,7 @@ The DRY principle states: "Every piece of knowledge must have a single, unambigu
 
 ### Phase 1: Setup & Discovery
 
-1. **Create the tracking plan** in `plans/dry-review-<project-name>.md` using the template below
+1. **Create the tracking plan** in `docs/plans/dry-review-<project-name>.md` using the template below
 2. **Inventory the codebase**: List all source files, their languages, sizes, and roles
 3. **Identify scope**: Confirm with the user which directories/files to include or exclude (e.g., skip `node_modules`, `vendor`, generated files, test fixtures)
 
@@ -103,7 +103,7 @@ Update the plan file with:
 
 ## Plan File Template
 
-The plan file MUST be created at `plans/dry-review-<project-name>.md` using this structure:
+The plan file MUST be created at `docs/plans/dry-review-<project-name>.md` using this structure:
 
 ```markdown
 # DRY Code Review: <Project Name>

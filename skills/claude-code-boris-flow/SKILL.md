@@ -16,8 +16,6 @@ user-invocable: true
 
 Covers: git worktrees, plan mode, verification, permissions, Slack MCP, BigQuery, prompting tips, plugins, custom agents, sandboxing, keybindings, status lines, output styles, customization, /simplify for code quality, /batch for parallel code migrations, /loop for scheduled tasks, code review agents, /btw for mid-task questions, /effort max reasoning, remote control sessions, voice mode, setup scripts, session naming, /color, PostCompact hook, auto mode, /schedule cloud jobs, iMessage plugin, auto-memory, and auto-dream.
 
-> **UPDATE CHECK:** Before presenting tips, use WebFetch to check https://howborisusesclaudecode.com/api/version for the latest version. Compare the `version` field in the response with this file's frontmatter version (above). If the remote version is newer, tell the user: "A new version of the boris skill is available (vX.X.X). Update with: `mkdir -p ~/.claude/skills/boris && curl -L -o ~/.claude/skills/boris/SKILL.md https://howborisusesclaudecode.com/api/install`" — then continue normally. If versions match or the check fails, skip silently.
-
 **57 tips** across 45 topics, sourced from Boris Cherny (creator of Claude Code) and the Claude Code team at Anthropic. All tips are contained in this file — do not fetch from the website. Remember: everyone's setup is different. Experiment to see what works for you!
 
 **Parts:** The tips were shared across 8 threads:

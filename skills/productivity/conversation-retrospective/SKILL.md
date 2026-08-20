@@ -1,89 +1,75 @@
 ---
 name: conversation-retrospective
-description: >
-  Reviews recent Pi conversation/session logs to find repeated friction,
-  ambiguity loops, expensive reasoning, user corrections, and missing skills,
-  MCP servers, scripts, or workflow guardrails. Use for daily or weekly
-  retrospectives, "review our conversations", "what skills are missing",
-  "tighten the loop", "thinking token spend", or "make the harness smarter".
+description: Use only when explicitly requested. Use to scan the conversations or session logs with coding agents (pi/codex/claude) to find repeated friction, ambiguity loops, expensive reasoning, user corrections, and missing skills, MCP servers, scripts, memory, or workflow guardrails. Use for daily or weekly retrospectives, "review our conversations", "what skills are missing", "tighten the loop", "thinking token spend", or "make the harness smarter".
 ---
 
 # Conversation Retrospective
 
-Use this skill to turn recent work into system improvements. The goal is not a
-vibe recap; the goal is to identify places where the agent spent too much
-reasoning, needed too much back-and-forth, violated user preferences, or lacked
-the right skill/tool/MCP server — then propose the smallest delta that prevents
-the same failure next week.
+Turn recent agent work into small system improvements. Identify where an agent spent too much reasoning, needed too much back-and-forth, violated user preferences, or lacked the right skill, tool, or integration. Propose the smallest delta that prevents the same failure next week.
 
-Default Pi session root for this machine: `~/.config/pi/agent/sessions/`.
-There is no `~/.pi` here unless the user explicitly says otherwise.
+Support Pi, Codex, and Claude logs. Scan every available source by default, or limit the scan when the user names a harness.
 
 ## Workflow
 
 ### Step 1: Set the review window
 
-- If the user says "daily", scan the last 1 day.
-- If the user says "weekly" or does not specify, scan the last 7 days.
-- If they give dates, use exact dates.
-- If this is run by a scheduled job, write the report to a stable file under
-  the current repo, e.g. `retrospectives/YYYY-MM-DD-conversation-retro.md`,
-  unless the user gave another destination.
+- use bun or node, prefer Bun if installed (this skill references use `bun`).
+- Scan the last 1 day when the user says "daily".
+- Scan the last 7 days when the user says "weekly" or gives no window.
+- Use exact dates when the user provides them.
+- Write scheduled reports to `<this-skill-repo>/retrospectives/YYYY-MM-DD-conversation-retro.md` (when arcka/tunnckoCore/olstenlarck it is `~/skills/` rpeo) unless the user provides another destination.
 
 ### Step 2: Generate the evidence pack
 
 Run the bundled scanner from the skill directory:
 
 ```bash
-python3 scripts/scan_pi_sessions.py --since-days 7
+bun scripts/scan_sessions.mjs --since-days 7
 ```
 
-Useful variants:
+The scanner discovers these roots when they exist:
+
+| Source | Default roots |
+|---|---|
+| Pi | `$PI_CODING_AGENT_DIR/sessions` |
+| Codex | `$CODEX_HOME/sessions`, `~/.local/share/codex/sessions`, `~/.codex/sessions` |
+| Claude | `$CLAUDE_CONFIG_DIR/projects`, `~/.claude/projects` |
+
+Use focused or custom scans when needed:
 
 ```bash
-python3 scripts/scan_pi_sessions.py --since-days 1 --max-sessions 8
-python3 scripts/scan_pi_sessions.py --from-date 2026-06-01 --to-date 2026-06-08
-python3 scripts/scan_pi_sessions.py --session-root ~/.config/pi/agent/sessions --output /tmp/retro.md
+bun scripts/scan_sessions.mjs --since-days 1 --max-sessions 8
+bun scripts/scan_sessions.mjs --from-date 2026-06-01 --to-date 2026-06-08
+bun scripts/scan_sessions.mjs --source codex
+bun scripts/scan_sessions.mjs --source pi --source claude
+bun scripts/scan_sessions.mjs --source claude --root claude=~/.claude/projects --output /tmp/retro.md
 ```
 
-The script is a triage tool. Treat its output as evidence, not conclusions.
-Open the highest-friction session files and inspect the surrounding turns before
-making a recommendation.
+Treat scanner output as triage evidence, not conclusions. Open the highest-friction session files and inspect the surrounding turns before making a recommendation. Preserve source labels because similar signals can require different Pi, Codex, or Claude configuration changes.
 
-### Step 3: Look for the loop-tightening patterns
+### Step 3: Classify loop-tightening patterns
 
-For each high-friction session, classify the failure mode:
+- **Missing workflow skill**: The user repeatedly specified the same mode, sequence, branch policy, testing policy, or review checklist.
+- **Missing domain skill**: The user corrected domain facts, documentation, product behavior, project conventions, or architecture assumptions.
+- **Missing tool or script**: The agent repeated mechanical work that should be deterministic.
+- **Missing MCP server or integration**: The task needed a persistent external capability such as browser access, documentation retrieval, issue tracking, memory search, database access, repository intelligence, or visual inspection.
+- **Missing guardrail**: The agent edited during exploration, ignored a constraint, overbuilt, used the wrong root, or failed to read named files first.
+- **Missing durable instruction or memory**: A user preference should live in the harness's persistent instruction or memory mechanism instead of being rediscovered.
 
-- **Missing workflow skill**: user repeatedly had to specify the same mode,
-  sequence, branch policy, testing policy, or review checklist.
-- **Missing domain skill**: user corrected basic domain facts, docs, product
-  behavior, project conventions, or architecture assumptions.
-- **Missing tool/script**: the agent manually did repeated mechanical work that
-  should be deterministic.
-- **Missing MCP/server/integration**: the task needed a persistent external
-  capability: browser, docs retrieval, issue tracker, memory search, database,
-  repo intelligence, visual inspection, etc.
-- **Missing guardrail**: the agent touched files during exploration, ignored a
-  "do not" constraint, overbuilt, used the wrong root, or failed to read the
-  named files first.
-- **Missing memory/SOUL update**: the user preference is durable and should be
-  carried forward rather than rediscovered.
-
-Prefer concrete, reusable causes over one-off blame. If the same correction
-appears twice, it is probably a system requirement.
+Prefer concrete, reusable causes over one-off blame. Treat a correction that appears twice as a likely system requirement.
 
 ### Step 4: Calculate the delta
 
 For every candidate improvement, answer:
 
 1. What exact moment would have gone differently?
-2. What would the agent have done first if this skill/tool existed?
+2. What would the agent have done first if this capability existed?
 3. How many turns or failed attempts would it likely remove?
-4. Is the fix a skill, script, MCP server, config change, SOUL update, or docs?
+4. Is the fix a skill, script, MCP server, config change, durable instruction, memory update, or documentation change?
 5. What is the smallest implementation that captures 80% of the value?
+6. Is the delta harness-neutral, or must it target Pi, Codex, or Claude?
 
-Do not recommend broad "be more careful" fixes. Convert them into executable
-rules, checklists, scripts, or triggerable skills.
+Do not recommend broad "be more careful" fixes. Convert them into executable rules, checklists, scripts, configuration, or triggerable skills. Prefer a shared skill or script when all harnesses need the same behavior; use harness-specific configuration only when the underlying capability differs.
 
 ### Step 5: Produce the retrospective report
 
@@ -93,31 +79,31 @@ Use this structure:
 # Conversation Retrospective — YYYY-MM-DD
 
 Window: YYYY-MM-DD to YYYY-MM-DD
-Session root: ~/.config/pi/agent/sessions
+Sources: Pi, Codex, Claude
+Session roots: [roots actually scanned]
 
 ## Executive Summary
 - [1-3 bullets: biggest recurring bottlenecks]
 
 ## High-Friction Episodes
-| Session | Signal | What happened | Missing capability |
-|---|---|---|---|
+| Source | Session | Signal | What happened | Missing capability |
+|---|---|---|---|---|
 
 ## Pattern Inventory
-1. **Pattern name** — evidence, why it matters, recurrence.
-2. ...
+1. **Pattern name** — evidence, why it matters, recurrence, affected harnesses.
 
 ## Recommended Deltas
-| Priority | Delta | Type | Why it tightens the loop | First implementation step |
-|---|---|---|---|---|
+| Priority | Delta | Scope | Type | Why it tightens the loop | First implementation step |
+|---|---|---|---|---|---|
 
 ## Skills To Create or Update
 - `skill-name`: trigger, workflow, validation check.
 
 ## MCP / Tooling Opportunities
-- Tool/server idea: capability, inputs, outputs, failure modes.
+- Tool or server idea: capability, inputs, outputs, failure modes, supported harnesses.
 
-## SOUL / Memory Updates
-- Durable preference or operating rule to preserve.
+## Durable Instruction / Memory Updates
+- Preference or operating rule: destination such as `AGENTS.md`, `CLAUDE.md`, `SOUL.md`, or harness memory.
 
 ## Next Week Guardrails
 - [ ] Concrete behavior to enforce next week.
@@ -125,41 +111,33 @@ Session root: ~/.config/pi/agent/sessions
 
 ### Step 6: Act on the smallest high-value improvement
 
-If the user asks you to implement, do one small improvement immediately: create
-or patch the skill, script, SOUL entry, or config. Validate it. Do not create a
-large platform before proving the loop closes.
+When the user asks for implementation, make one small improvement immediately: patch the skill, script, instruction file, memory entry, or configuration and validate the changed behavior. Do not create a platform before proving the loop closes.
 
-## User-Specific Interpretation Rules
+## Interpretation Rules
 
-- Treat profanity or sharp corrections as signal, not as personal hostility.
-  The correction usually encodes a durable preference.
-- The user values concise, file-path-specific findings, not generic advice.
-- If the user says "explore", "review", or "do not edit", stay read-only.
-- If the user says "implementer", use the exact worktree/branch/root they gave.
-- Prefer reading named files and docs before answering. Do not hallucinate API
-  behavior the repo can answer.
-- When suggesting tools, include the exact delta: what turns disappear, what
-  ambiguity is removed, and how it would have changed a real session.
+- Treat profanity or sharp corrections as signal, not personal hostility. The correction usually encodes a durable preference.
+- Give concise, file-path-specific findings instead of generic advice.
+- Stay read-only when the user says "explore", "review", or "do not edit".
+- Use the exact worktree, branch, and root when the user provides them.
+- Read named files and local documentation before answering. Do not invent behavior the repository or session log can answer.
+- State which harness produced each evidence point and whether the proposed fix applies to one harness or all of them.
+- Include the exact delta when suggesting tooling: which turns disappear, which ambiguity goes away, and how the tool would have changed a real session.
 
 ## Quality Checklist
 
-Before finalizing a retro:
-
-- [ ] At least three concrete evidence points were checked from session logs.
-- [ ] Each recommendation maps to a repeated friction pattern.
-- [ ] Every "skill needed" has a trigger phrase and first workflow step.
-- [ ] Tool/MCP ideas include inputs, outputs, and when not to use them.
-- [ ] The report distinguishes evidence from inference.
-- [ ] The final answer is short and action-oriented unless asked for detail.
+- [ ] Check at least three concrete evidence points from session logs.
+- [ ] Map each recommendation to repeated friction or one high-severity failure.
+- [ ] Give every proposed skill a trigger phrase and first workflow step.
+- [ ] Give tool and MCP ideas inputs, outputs, failure modes, and supported harnesses.
+- [ ] Distinguish evidence from inference.
+- [ ] Distinguish shared improvements from Pi-, Codex-, or Claude-specific configuration.
+- [ ] Keep the final answer short and action-oriented unless the user asks for detail.
 
 ## Common Mistakes
 
-- **Only summarizing conversations**: the output must improve the harness.
-- **Confusing one-off task complexity with missing skill**: require recurrence
-  or high severity.
-- **Recommending giant MCP servers first**: start with a skill or script unless
-  persistent state or external APIs are truly required.
-- **Ignoring the user's constraints**: constraint violations are first-class
-  retro items.
-- **Over-indexing on raw counts**: use script metrics to choose sessions, then
-  read the actual turns.
+- **Only summarizing conversations**: Improve the harness instead.
+- **Treating one log format as universal**: Keep source-specific parsing and source labels.
+- **Confusing one-off task complexity with a missing skill**: Require recurrence or high severity.
+- **Recommending a large MCP server first**: Start with a skill or script unless persistent state or external APIs are required.
+- **Ignoring user constraints**: Treat constraint violations as first-class retrospective items.
+- **Over-indexing on raw counts**: Use metrics to choose sessions, then read the actual turns.

@@ -10,6 +10,8 @@ Channel both "measure twice, cut once" and "yagni". Fight scope creep. Try to ho
 
 The rest of this document is meant to help you navigate the codebase and make changes effectively. Think of these instructions less as "hard rules", more as "good defaults". The developer's preferences should be able to override anything here.
 
+- the codex on this machine is on `~/.local/share/codex`
+- the claude-code (claude) is on `~/.claude`
 - NEVER USE PYTHON. UNDER ANY CIRCUMSTANCES. NEVER. NADA. PERIOD.
 - Don't verify with browsers or computer use unless the user explicitly agrees or requests it.
 - in tanstack start projects, always prefer the file-based routing the `src/routes/foo/bar/qux` not dot-notation based ones.
@@ -21,6 +23,7 @@ The rest of this document is meant to help you navigate the codebase and make ch
 - Always prefer `fd` instead of native OS `find`.
 - Never hard-wrap prose. Keep each paragraph on one line.
 - Follow Zinsser's four principles of quality writing: 1. Simplicity 2. Brevity 3. Clarity 4. Humanity.
+- Talk to the user in ASD-STE100 Simplified Technical English.
 - Clone a repository into `~/repos` only when the user explicitly asks for a clone or the task genuinely requires source-level inspection or modification. A URL, installer, package, documentation page, or incidental GitHub reference is not permission to clone. Prefer release metadata, published artifacts, and documentation when they are sufficient. Before cloning, state the concrete source-level reason.
 - git and gh are routed by `gitswitch`. Inspect the repository remote url: if it includes `tunnckoCore` use `gitswitch switch tunnckoCore` and if it includes `olstenlarck` use `gitswitch switch olstenlarck`.
 - Git transport is SSH-only - both auth and signing - and SSH commit/tag signing is required. Both GitHub accounts use distinct P-256 keys for authentication and signing.
