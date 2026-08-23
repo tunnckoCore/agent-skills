@@ -1,52 +1,71 @@
-## General stuff
+# Working rules
 
-I like ambitious ideas, simple systems and solutions, and software that feels obvious. Do not preserve complexity just because it already exists. Do not introduce machinery because it looks architecturally impressive. Understand the real constraint, then fight for the smallest model that makes the correct behavior unsurprising. Do not over-engineer, strive for the minimal working solution - "less is more" mentality.
+## Defaults
+- Simple systems, obvious software. Minimal working solution. "Measure twice, cut once". LESS IS MORE.
+- Fight for the smallest model smallest model that makes behavior unsurprising. No machinery for its own sake. YAGNI.
+- Do the request, not more. No extra fallbacks, helpers, tests, docs, cleanup, compatibility, memory, or notes unless asked.
+- The latest correction replaces the earlier decision.
+- Do not repeat settled context, rejected ideas, unchanged snippets, or explanations the user already understands. Give only the new information.
+- A question or stated need is discussion, not permission to act. Do not edit, test, or report completion until the user explicitly says "go" or "implement".
+- Question is a question, even with a stated need, not a permission to act. Discussion. Answer. Do not make edits or writes. Do not use a skill to answer for basic stuff.
+- Try to sense and infer intent: questions are not always asked properly or with a question mark.
+- Ground claims in code, runtime output, or current primary docs. Look up real-world numbers (prices, versions, limits, blockchain gas costs); do not recall them.
+- The developer's stated preference beats any rule here.
+- Always consider and follow the `CONTEXT.md`, `docs/spec.md`, and `docs/adr/` files of the project!
+- do not read anything from `~/.agents` folder, and don't look for it.
 
-- DO NOT USE ANY BROWSER IF UNLESS EXPLICITLY ASKED BY A USER. NEVER. NADA.
-- NEVER USE A BROWSER. NEVER.
-- WHEN YOU ARE GIVEN URL OR NEED TO RESEARCH - NEVER USE A BROWSER, THERE IS CURL AND WEBSEARCH TOOLS, OR ANYTHING ELSE.
+## Responses
+- Never say the user accepted, approved, or confirmed something unless they explicitly did.
+- Answer first, evidence second. No preamble, no summaries of known context.
+- Apply Unslop skill (`~/skills/skills/creative/general-writing/unslop/SKILL.md`), Zinsser (simple, brief, clear, human), and ASD-STE100 to everything: responses to user, replies, docs, reviews, PRs, comments.
+- No metaphors, no undefined jargon, no hard-wrapped prose. One paragraph per line.
+- A sentence never starts with a code span or a symbol, lear with a word. Never write "Gas. `foo` costs…" — write "The `foo` call costs…".
+- Report decisions, progress, results, blockers. Do not narrate reads and commands.
+- Domain terms come from `CONTEXT.md` only. If it is missing, point to `~/skills/skills/develop/matt/domain-modeling/SKILL.md` without reading it.
+- File citations: markdown link, absolute path + `:line`.
+- Re-emit or reformat: full artifact, changed only as asked.
+- Never srite "15 k" and "22.1 k", it is "15k" and "22.1k" - they are together. Same for kb, mb and so on.
+- Do no use "500 G", it's "500 billion" or just "500B" and "43T". A 500B and 500b is a different thing!
 
-Channel both "measure twice, cut once" and "yagni". Fight scope creep. Try to honor the dev's intent in both a minimal and realistic fashion.
+## Git and GitHub
+- Read-only means read-only. No writes, commits, reverts, or publishing without clear permission. Clarify ambiguous or destructive Git requests and state the exact effect.
+- "Revert" means undo a change, not `git revert`, unless the user says "revert commit".
+- Never use `main` as a branch name, including during repository creation or through forced flags. If another skill says `main`, use `master` instead.
+- SSH only, for both auth and signing.
+- Run `gitswitch switch tunnckoCore|olstenlarck` before any git/gh operations. Remote URL is the source which identity to use.
+- Never switch a remote to HTTPS, install a credential helper, run `gh auth setup-git`, or copy auth state. NEVER.
+- Clone only with a stated source-level reason, into `~/repos`. A link is not a reason.
+- No PRs unless asked, never drafts. Title: conventional commit in plain language. Body: problem, fix, then model and harness. Rebase first. One concern per PR. UI needs before/after images - not always.
+- Babysit a PR only when asked: `~/skills/skills/develop/babysit-pr/SKILL.md`.
+- Squash-merge PRs. Never create merge commits.
 
-The rest of this document is meant to help you navigate the codebase and make changes effectively. Think of these instructions less as "hard rules", more as "good defaults". The developer's preferences should be able to override anything here.
+## Tools
+- "Stop" means stop immediately. Cancel active and background work. Do not finish, replace, or restart it.
+- Never use any built-in browser or browser tool. Unless explicitly asked.
+- No browser or computer use unless asked. Use `curl`, WebSearch, WebFetch.
+- No Python except to run a skill script. No `npm`/`npx`: pick `bun`/`pnpm` by lockfile, else ask.
+- Use the exact repo commands the user or docs gave. No substitutes, filters, or extra checks.
+- Built-in tools first, then bash with `sed`/`awk`. `rg` over `grep`, `fd` over `find`.
+- NEVER USE PYTHON, PERL OR ANYTHING IF THERE IS A BUILT-IN TOOL. OR JUST USE STANDARD UNIX TOOLS AND BASH!
+- Max 3 subagents, no grandchildren. No workflows for scaffolds or simple tasks. Never re-launch a workflow the user killed. No long silent tool loops.
+- This is NixOS system: config in `~/nixos-config`, validate with `nix build --no-link`. Never activate or switch configs unless authorized. Missing tool: `nix run nixpkgs#<tool>`, or suggest adding it; do not edit user config unasked.
+- Codex: `~/.local/share/codex`. Claude Code: `~/.claude`. Pi: `~/.config/pi/agent`.
 
-- the codex on this machine is on `~/.local/share/codex`
-- the claude-code (claude) is on `~/.claude`
-- NEVER USE PYTHON. UNDER ANY CIRCUMSTANCES. NEVER. NADA. PERIOD.
-- Don't verify with browsers or computer use unless the user explicitly agrees or requests it.
-- in tanstack start projects, always prefer the file-based routing the `src/routes/foo/bar/qux` not dot-notation based ones.
-- always prefer TailwindCSS, even when desigining a single html file pages - in such cases you can use the tailwind cdn.
-- If you are asked to replace occurances, you can just use bash tool with `sed`/`awk` or similar.
-- NEVER edit files with python, try to use the native `fs_edit` tool or other `edit` tool, then fallback to `bash`/`shell_exec`.
-- Think before you do dumb shit. Always prefer and use the built-in tools when possible.
-- Always prefer `rg` instead of native OS `grep`.
-- Always prefer `fd` instead of native OS `find`.
-- Never hard-wrap prose. Keep each paragraph on one line.
-- Follow Zinsser's four principles of quality writing: 1. Simplicity 2. Brevity 3. Clarity 4. Humanity.
-- Talk to the user in ASD-STE100 Simplified Technical English.
-- Clone a repository into `~/repos` only when the user explicitly asks for a clone or the task genuinely requires source-level inspection or modification. A URL, installer, package, documentation page, or incidental GitHub reference is not permission to clone. Prefer release metadata, published artifacts, and documentation when they are sufficient. Before cloning, state the concrete source-level reason.
-- git and gh are routed by `gitswitch`. Inspect the repository remote url: if it includes `tunnckoCore` use `gitswitch switch tunnckoCore` and if it includes `olstenlarck` use `gitswitch switch olstenlarck`.
-- Git transport is SSH-only - both auth and signing - and SSH commit/tag signing is required. Both GitHub accounts use distinct P-256 keys for authentication and signing.
-- For git/gh ops: never change a remote to HTTPS. Do NOT install/use an HTTPS credential helper, do NOT run `gh auth setup-git`; do NOT migrate/copy authentication state, or change GitHub authentication/protocol state unless explicitly requested.
-- never USE the `npm` and `npx` commands - most of the times it's `bun`/`bunx` or `pnpm`/`pnpx` - detect by looking for lockfiles in the workspace
-- never RUN `npm` commands. Ask if the user is sure before proceeding - but only if there is no other way.
-- if asked about nixos and to update something on it - assume that it gets build with `~/nixos-config` - you are running on NixOS system.
-- Validate NixOS/Home Manager changes with `nix build --no-link`.
-- Never activate or switch configurations unless explicitly authorized.
-- if some POSIX tool or CLI program is missing (like `cloudflared`), use nixos shellrun (like `nix run nixpkgs#cloudflared -- tunnel` but for other missing programs) or ask/suggest if the user wants to be added to his system config at `~/nixos-config`.
+## Code
+- Follow `~/skills/skills/develop/clean-code-style/SKILL.md`. Web pages: `~/skills/product_design.md`, TailwindCSS v4 (jsdelivr CDN for v4+).
+- TanStack Start routes are file-based: `src/routes/foo/bar/qux.tsx`.
+- Review the worktree including uncommitted changes, not only `HEAD`.
+- Rapid prototypes: no old-behavior compatibility unless asked.
+- Put generic reusable helpers in `src/utils.ts` and export them. Before adding a local helper, check the central utilities and existing exports so the same logic is not implemented twice.
+- Do not preserve superseded APIs or add regression tests for them during refactors.
+- When Solidity: always use reverts and errors, not requires. NEVER USE REQUIRE ANYWHERE, EVEN IN DOCS OR GUIDES.
 
-## Clean Code and Product Design (UI)
-
-- when writing code or working on projects, always read `~/skills/clean_code.md` file and follow its instructions.
-- When designing a webapp or single-page html file, always read and follow `~/skills/product_design.md`
-
-## Pull requests
-
-- Never make a PR unless the developer explicitly asks you to do so.
-- Never make draft PRs, always a real PRs - they run PR review bots
-- Conventional commit titles, plain language: `fix(web): new threads no longer spike CPU`.
-- Body: the problem in a sentence or two, then how you fixed it. End with the model and harness that did the work.
-- **Rebase onto latest main before opening.** Stale branches conflict and burn a review round.
-- UI changes need before/after images. Motion or timing needs a short video.
-- One concern per PR. If the description says "also", split it.
-- When babysitting: poll checks and comments newer than the last push, verify each bot finding against the source, fix real ones, dismiss false positives with a written reason. Stay quiet when nothing is new. Stop when the bots are green on the latest commit.
+## Skills (read on demand)
+- Read a skill only when the task matches its trigger below. Do not preload or summarize skills.
+- Why = motivation, how = mechanics.
+  + For "Why is X like this", rationale, regressions, postmortems: `~/skills/skills/develop/why/SKILL.md`.
+  + For "How does X work", walkthroughs, where code should live: `~/skills/skills/develop/how-it-works/SKILL.md`. 
+- For writing docs or technical writing (dev blogs), knowledge base for a repo (create or update), not README or comments: `~/skills/skills/develop/codebase-docs/SKILL.md`.
+- Test-first work, "tdd", "red-green", integration tests: `~/skills/skills/develop/matt/matt-tdd/SKILL.md`.
+- "Handoff", continuation prompt, "pick this up later": `~/skills/skills/develop/handoff/SKILL.md`.
+- Any Cloudflare task: start at `~/skills/skills/develop/cloudflare/cloudflare-cloudflare/SKILL.md`, then the one sibling in `~/skills/skills/develop/cloudflare/` that matches the product (wrangler before any `wrangler` command, workers-best-practices for Worker code, durable-objects, agents-sdk, email-service, sandbox-sdk, turnstile-spin, web-perf).

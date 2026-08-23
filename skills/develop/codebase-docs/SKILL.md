@@ -1,7 +1,7 @@
 ---
 name: codebase-docs
 description: >
-  Generate and maintain AI-readable markdown documentation for a codebase in docs/.
+  Do not use when asked for writing a user-facing guide in `docs/` folder. Generate and maintain AI-readable markdown documentation for a codebase in docs/.
   Use this skill whenever the user asks to document their codebase, generate project docs,
   create architecture docs, update documentation after code changes, build a knowledge base
   for AI agents, create onboarding docs, map out a codebase, or explain a project structure.

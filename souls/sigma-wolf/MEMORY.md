@@ -32,3 +32,4 @@ Use `rc` rather than `status` for shell exit-code variables because `status` is 
 When Nix globally enables use-xdg-base-directories but standalone Home Manager cannot inspect osConfig, set `nix.assumeXdg = true`; otherwise Home Manager may target `~/.nix-profile` and invoke `nix-env` against a modern XDG `nix profile`.
 For user-facing wrappers that must appear immediately in long-lived shells, manage them under an already-stable `~/.local/bin` path instead of relying only on a mutable Nix profile bin directory.
 When a user specifies matching wrapper and root names, verify the exact spelling in both generated configuration and the resulting filesystem path before claiming completion.
+In pi, disable an installed package without uninstalling it by replacing its package string with a filter object whose extensions, skills, prompts, and themes arrays are empty; reload or restart pi for the active runtime to drop it.
