@@ -41,7 +41,8 @@ Use ASD-STE100 Simplified Technical English for updates, review replies, commits
 
 ## Maintain the pull request body
 
-Rewrite the complete pull request body after the implementation and review fixes are stable. Do not append a partial note to an obsolete body.
+- Use this skill before filing a pull request. File the complete body once; do not add pending-check placeholders or edit the body after filing unless the user explicitly asks.
+- Never delete or overwrite pull request content added by a person or bot. If the user authorizes an edit, read the current body first and preserve all external additions verbatim.
 
 Use this model:
 
@@ -50,7 +51,7 @@ Use this model:
 3. Explain what the change does in simple terms.
 4. Add grouped sections for the main behavior changes.
 5. Add intentional product constraints when they matter.
-6. Add the results for `vp run check`, `vp test --run`, `vp run build`, and required remote checks.
+6. Add available local verification results. Report later remote-check results in updates, not by editing the body.
 7. Use ASD-STE100 in every section.
 
 Always end the pull request body with this footer:

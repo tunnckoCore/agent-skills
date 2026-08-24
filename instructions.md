@@ -31,6 +31,8 @@
 - Read-only means read-only. No writes, commits, reverts, or publishing without clear permission. Clarify ambiguous or destructive Git requests and state the exact effect.
 - "Revert" means undo a change, not `git revert`, unless the user says "revert commit".
 - Never use `main` as a branch name, including during repository creation or through forced flags. If another skill says `main`, use `master` instead.
+- Sometimes `master` may be referred to as "nightly" (usually npm dist-tag, or github branch).
+- Most of the times "staging" means "master/nightly". Production means "stable" branch, or "latest" npm dist-tag.
 - SSH only, for both auth and signing.
 - Run `gitswitch switch tunnckoCore|olstenlarck` before any git/gh operations. Remote URL is the source which identity to use.
 - Never switch a remote to HTTPS, install a credential helper, run `gh auth setup-git`, or copy auth state. NEVER.
