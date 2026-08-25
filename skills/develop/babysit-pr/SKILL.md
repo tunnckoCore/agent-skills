@@ -1,6 +1,6 @@
 ---
 name: babysit-pr
-description: Monitor, fix, and finish a GitHub pull request. Use when the user asks to babysit, watch, finish, unblock, or merge a PR and wants concise updates in Simplified Technical English.
+description: Monitor, fix, and finish a GitHub pull request.
 ---
 
 # Babysit a pull request
@@ -9,7 +9,7 @@ Own the pull request until it is ready or merged. Fix problems instead of only r
 
 ## Write clearly
 
-Use ASD-STE100 Simplified Technical English for updates, review replies, commits, pull request body, and when talking back to the user.
+Use the `unslop` skill and ASD-STE100 Simplified Technical English for updates, review replies, commits, pull request body, and when talking back to the user.
 
 - Use short sentences and active voice.
 - State the result first.
@@ -41,8 +41,8 @@ Use ASD-STE100 Simplified Technical English for updates, review replies, commits
 
 ## Maintain the pull request body
 
-- Use this skill before filing a pull request. File the complete body once; do not add pending-check placeholders or edit the body after filing unless the user explicitly asks.
-- Never delete or overwrite pull request content added by a person or bot. If the user authorizes an edit, read the current body first and preserve all external additions verbatim.
+- Rewrite the complete pull request body after the implementation and review fixes are stable. Do not append a partial note to an obsolete body.
+- Never delete or overwrite pull request content added by a person or bot. Preserve all external additions verbatim.
 
 Use this model:
 
@@ -51,19 +51,7 @@ Use this model:
 3. Explain what the change does in simple terms.
 4. Add grouped sections for the main behavior changes.
 5. Add intentional product constraints when they matter.
-6. Add available local verification results. Report later remote-check results in updates, not by editing the body.
-7. Use ASD-STE100 in every section.
-
-Always end the pull request body with this footer:
-
-```text
----
-
-_**Harness:** <harness name>_
-_**Model:** <model name and reasoning mode>_
-```
-
-The harness and model footer must be the last content in the body.
+6. Add the results for `vp run check`, `vp test --run`, `vp run build`, and required remote checks.
 
 ## Finish
 

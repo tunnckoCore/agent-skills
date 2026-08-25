@@ -6,14 +6,7 @@ description: >
   everything a new agent needs: project, goal, progress, decisions, current
   state, and remaining work.
 
-  **Triggers — use this skill when:**
-  - User says "handoff", "hand off", "hand-off"
-  - User asks to "generate a continuation prompt"
-  - User says "give me a prompt to continue this"
-  - User asks to "wrap up for a new session"
-  - User says "context transfer", "session transfer"
-  - User asks "how do I pick this up later"
-  - User wants to "pass this to another agent"
+  **Triggers:** handoff, generate a continuation prompt, wrap up for new session.
 ---
 
 # Handoff — Session Context Transfer
@@ -83,10 +76,12 @@ Produce a single Markdown code block containing the prompt. The user copies this
 Use this structure. Adapt and omit sections as needed — a trivial task doesn't need architectural decisions. The prompt should be as short as possible while remaining complete.
 
 ````markdown
-```
-Project: <name> — <one-line description>
-Path: <absolute path to project root>
-Branch: <current branch>
+---
+project: <name> — <one-line description>
+path: <absolute path to project root>
+branch: <branch this worktree is based on>
+worktree: <name of the worktree> / <branch of the worktree>
+---
 
 ## Goal
 
@@ -132,10 +127,7 @@ Dirty files:
 ## Gotchas
 
 - <Anything surprising, non-obvious, or easy to get wrong>
-```
 ````
-
----
 
 ## Guidelines
 
@@ -164,6 +156,6 @@ The first item under "What's Left" should be an unambiguous instruction the new 
 
 ## Output
 
-1. Present the handoff prompt inside a single fenced code block so it's easy to copy
+1. Present the handoff prompt inside a single fenced code block, UNLESS user asks you to write it down.
 2. If there are uncommitted changes, mention this outside the code block as a reminder
-3. Optionally suggest saving the prompt to a file: `pbcopy` or write to `.handoff.md`
+3. If asked to write down into a file: `.ignore/handoffs/<date>-<slug>.md`, and render direct markdown link to it.

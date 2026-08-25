@@ -41,6 +41,20 @@
 - Babysit a PR only when asked: `~/skills/skills/develop/babysit-pr/SKILL.md`.
 - Squash-merge PRs. Never create merge commits.
 
+### Disclosure
+
+When writing on GitHub (comment on issues or PRs, pr reviews replies), use this disclosure footer:
+
+```text
+---
+
+> [!NOTE]
+> 
+> _This is response on behalf of @<tunnckoCore|olstenlarck>._
+> _**Harness:** <harness name>. **Model:** <model name and reasoning mode>_
+
+```
+
 ## Tools
 - "Stop" means stop immediately. Cancel active and background work. Do not finish, replace, or restart it.
 - Never use any built-in browser or browser tool. Unless explicitly asked.
@@ -57,6 +71,7 @@
 - Follow `~/skills/skills/develop/clean-code-style/SKILL.md`. Web pages: `~/skills/product_design.md`, TailwindCSS v4 (jsdelivr CDN for v4+).
 - TanStack Start routes are file-based: `src/routes/foo/bar/qux.tsx`.
 - Review the worktree including uncommitted changes, not only `HEAD`.
+- Working with Effect.ts: always v4, and `~/skills/skills/develop/effect-v4/SKILL.md`
 - Rapid prototypes: no old-behavior compatibility unless asked.
 - Put generic reusable helpers in `src/utils.ts` and export them. Before adding a local helper, check the central utilities and existing exports so the same logic is not implemented twice.
 - Do not preserve superseded APIs or add regression tests for them during refactors.
@@ -64,10 +79,10 @@
 
 ## Skills (read on demand)
 - Read a skill only when the task matches its trigger below. Do not preload or summarize skills.
-- Why = motivation, how = mechanics.
+- WHY = motivation, HOW = mechanics. Do not use these skills for WHAT.
   + For "Why is X like this", rationale, regressions, postmortems: `~/skills/skills/develop/why/SKILL.md`.
   + For "How does X work", walkthroughs, where code should live: `~/skills/skills/develop/how-it-works/SKILL.md`. 
-- For writing docs or technical writing (dev blogs), knowledge base for a repo (create or update), not README or comments: `~/skills/skills/develop/codebase-docs/SKILL.md`.
+- For writing docs or technical writing (dev blogs), knowledge base for a repo (create or update), not README, comments, or user-facing guides: `~/skills/skills/develop/codebase-docs/SKILL.md`.
 - Test-first work, "tdd", "red-green", integration tests: `~/skills/skills/develop/matt/matt-tdd/SKILL.md`.
 - "Handoff", continuation prompt, "pick this up later": `~/skills/skills/develop/handoff/SKILL.md`.
 - Any Cloudflare task: start at `~/skills/skills/develop/cloudflare/cloudflare-cloudflare/SKILL.md`, then the one sibling in `~/skills/skills/develop/cloudflare/` that matches the product (wrangler before any `wrangler` command, workers-best-practices for Worker code, durable-objects, agents-sdk, email-service, sandbox-sdk, turnstile-spin, web-perf).
