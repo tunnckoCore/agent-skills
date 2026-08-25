@@ -31,7 +31,7 @@
 ## Git and GitHub
 - Read-only means read-only. No writes, commits, reverts, or publishing without clear permission. Clarify ambiguous or destructive Git requests and state the exact effect.
 - "Revert" means undo a change, not `git revert`, unless the user says "revert commit".
-- Always make commit & issue/pr refs to be links.
+- Refs to issues, prs and commits should be markdown links with a label; not full raw links.
 - Never use `main` as a branch name, including during repository creation or through forced flags. If another skill says `main`, use `master` instead.
 - Sometimes `master` may be referred to as "nightly" (usually npm dist-tag, or github branch).
 - Most of the times "staging" means "master/nightly". Production means "stable" branch, or "latest" npm dist-tag.
