@@ -62,7 +62,7 @@ When writing on GitHub (comment on issues or PRs, pr reviews replies), use this 
 - T3 Code is not a harness, it's manager of Claude Code, Codex and OpenCode harnesses.
 - in harness write `Codex|ClaudeCode|OpenCode` and if it's from inside T3 Code add `(via T3 Code)` otherwise don't.
 - for OpenCode the name should be OpenCode1 or OpenCode2
-- For Codex/ClaudeCode model name: just the name not the identifier and no parens
+- For Codex/ClaudeCode model name: the full name, eg. `Claude Fable 5` or `OpenAI GPT-5.6 Sol`; not the identifier and no parens
 - For OpenCode model name: the model name, and the full identifier in parens.
  
 ## Tools
