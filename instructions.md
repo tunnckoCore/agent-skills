@@ -26,6 +26,7 @@
 - Re-emit or reformat: full artifact, changed only as asked.
 - Never srite "15 k" and "22.1 k", it is "15k" and "22.1k" - they are together. Same for kb, mb and so on.
 - Do no use "500 G", it's "500 billion" or just "500B" and "43T". A 500B and 500b is a different thing!
+- When referring ERCs or EIPs, make them markdown links to the thing, eg. if there is "ERC-4906 not advertised" it becomes `[ERC-4906](https://eips.ethereum.org/EIPS/eip-4906) not advertised`.
 
 ## Git and GitHub
 - Read-only means read-only. No writes, commits, reverts, or publishing without clear permission. Clarify ambiguous or destructive Git requests and state the exact effect.
