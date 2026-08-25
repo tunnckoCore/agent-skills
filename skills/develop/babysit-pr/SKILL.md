@@ -11,7 +11,7 @@ Own the pull request until it is ready or merged. Fix problems instead of only r
 
 Use the `unslop` skill and ASD-STE100 Simplified Technical English for updates, review replies, commits, pull request body, and when talking back to the user.
 
-- For reporting, don't write them in one line like `**PR:** <...>. **Final commit:** <...>. **Merge state:** <...>.` - separate bullets.
+- For reporting, don't write them in one line like `**PR:** <...>. **Final commit:** <...>. **Merge state:** <...>.` - separate bullets, titles still with bold.
 - Use short sentences and active voice.
 - State the result first.
 - Put one fact in each sentence.
