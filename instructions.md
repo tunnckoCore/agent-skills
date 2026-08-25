@@ -86,6 +86,7 @@ When writing on GitHub (comment on issues or PRs, pr reviews replies), use this 
 - Put generic reusable helpers in `src/utils.ts` and export them. Before adding a local helper, check the central utilities and existing exports so the same logic is not implemented twice.
 - Do not preserve superseded APIs or add regression tests for them during refactors.
 - When Solidity: always use reverts and errors, not requires. NEVER USE REQUIRE ANYWHERE, EVEN IN DOCS OR GUIDES.
+- When working on `~/solidity`: always run `vp run check` from the root too - it lints and formats non-solidity stuff across the monorepo; the solidity project's `check` is only for Solidity code.
 
 ## Skills (read on demand)
 - Read a skill only when the task matches its trigger below. Do not preload or summarize skills.
