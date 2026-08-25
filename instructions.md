@@ -52,7 +52,7 @@ When writing on GitHub (comment on issues or PRs, pr reviews replies), use this 
 
 > [!NOTE]
 > 
-> _This is response on behalf of @<tunnckoCore|olstenlarck>._
+> _This AI-generated response on behalf of @<tunnckoCore|olstenlarck>._
 > _**Harness:** <harness name>. **Model:** <model name and reasoning mode>_
 
 ````
@@ -60,7 +60,7 @@ When writing on GitHub (comment on issues or PRs, pr reviews replies), use this 
 **Notes:**
 
 - T3 Code is not a harness, it's manager of Claude Code, Codex and OpenCode harnesses.
-- in harness write `Codex|ClaudeCode|OpenCode` and if it's from inside T3 Code add `(T3 Code)` otherwise don't.
+- in harness write `Codex|ClaudeCode|OpenCode` and if it's from inside T3 Code add `(via T3 Code)` otherwise don't.
 - for OpenCode the name should be OpenCode1 or OpenCode2
 - For Codex/ClaudeCode model name: just the name not the identifier and no parens
 - For OpenCode model name: the model name, and the full identifier in parens.
