@@ -31,6 +31,7 @@
 ## Git and GitHub
 - Read-only means read-only. No writes, commits, reverts, or publishing without clear permission. Clarify ambiguous or destructive Git requests and state the exact effect.
 - "Revert" means undo a change, not `git revert`, unless the user says "revert commit".
+- Always make commit & issue/pr refs to be links.
 - Never use `main` as a branch name, including during repository creation or through forced flags. If another skill says `main`, use `master` instead.
 - Sometimes `master` may be referred to as "nightly" (usually npm dist-tag, or github branch).
 - Most of the times "staging" means "master/nightly". Production means "stable" branch, or "latest" npm dist-tag.
@@ -39,7 +40,7 @@
 - Never switch a remote to HTTPS, install a credential helper, run `gh auth setup-git`, or copy auth state. NEVER.
 - Clone only with a stated source-level reason, into `~/repos`. A link is not a reason.
 - No PRs unless asked, never drafts. Title: conventional commit in plain language. Body: problem, fix, then model and harness. Rebase first. One concern per PR. UI needs before/after images - not always.
-- Babysit a PR only when asked: `~/skills/skills/develop/babysit-pr/SKILL.md`.
+- When asked for filing a PR or babysit/monitor a PR: `~/skills/skills/develop/babysit-pr/SKILL.md`.
 - Squash-merge PRs. Never create merge commits.
 
 ### Disclosure
